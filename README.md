@@ -151,3 +151,7 @@ and stores it locally. That ID is the key for a small JSON blob in
 Redis. Copy the code shown in the app to another device, hit "Load," and
 it pulls the same progress down. If the API isn't reachable, the app
 just keeps working off local storage alone.
+
+## Catching up
+
+Every unwatched entry has a "Mark all watched up to here" button, so you can set your progress in one tap instead of checking each episode. It never unchecks anything and shows an Undo.

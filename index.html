@@ -588,6 +588,52 @@
   }
 
 
+  /* ---------- MARK UP TO HERE + TOAST ---------- */
+  .upto{
+    align-self:flex-start;
+    margin-top:6px;
+    background:transparent;
+    border:1px dashed var(--edge-bright);
+    color:var(--text-dim);
+    font-family:'Rajdhani',sans-serif;
+    font-weight:600;
+    font-size:.72rem;
+    padding:3px 9px;
+    border-radius:99px;
+    cursor:pointer;
+    opacity:.75;
+    transition:all .2s;
+  }
+  .upto:hover,.upto:focus-visible{opacity:1;color:var(--cyan);border-color:var(--cyan);}
+  .row.watched .upto{display:none;}
+  @media (hover:hover){
+    .row .upto{opacity:0;}
+    .row:hover .upto,.upto:focus-visible{opacity:1;}
+  }
+  #toast{
+    position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));
+    transform:translate(-50%,24px);
+    z-index:200;
+    display:flex;align-items:center;gap:14px;
+    min-width:min(88vw,300px);max-width:min(92vw,460px);justify-content:space-between;
+    padding:11px 16px;
+    border-radius:12px;
+    background:rgba(13,20,32,.94);
+    color:#f4f9ff;
+    border:1px solid var(--edge-bright);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    font-size:.88rem;font-weight:600;
+    opacity:0;pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  #toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto;}
+  #toast button{
+    background:transparent;border:1px solid var(--cyan);color:var(--cyan);
+    border-radius:99px;padding:5px 12px;font-weight:700;font-size:.8rem;cursor:pointer;
+    font-family:'Rajdhani',sans-serif;
+  }
+
   /* ---------- MOBILE ---------- */
   .console-toggle-m{display:none;}
   html{-webkit-text-size-adjust:100%;}
@@ -1471,6 +1517,7 @@ function buildPhases(){
           <span class="title">${title}</span>
           <span class="note${highlight ? ' highlight' : ''}" data-original="${note.replace(/"/g,'&quot;')}">${note}</span>
           ${airDate ? `<span class="air-date-inline">${airDate}</span>` : ''}
+          <button type="button" class="upto" data-order="${order}" title="Mark everything up to and including this entry as watched">Mark all watched up to here</button>
         </div>
         ${airDate ? `<span class="air-date">${airDate}</span>` : ''}
         ${isNext ? '<span class="next-badge">UP NEXT</span>' : ''}
@@ -1497,6 +1544,12 @@ function buildPhases(){
   container.querySelectorAll('.row').forEach(row=>{
     row.addEventListener('click', (e)=>{
       if(window.getSelection && String(window.getSelection()).length > 0) return;
+      const upBtn = e.target.closest('.upto');
+      if(upBtn){
+        e.stopPropagation();
+        markUpTo(parseInt(upBtn.dataset.order,10));
+        return;
+      }
       const note = e.target.closest('.note');
       if(note && note.classList.contains('spoiler-toggle')){
         note.classList.toggle('revealed');
@@ -1506,6 +1559,52 @@ function buildPhases(){
       }
       toggleEp(row.dataset.id, row.querySelector('.check'));
     });
+  });
+}
+
+/* Mark everything up to and including an entry as watched (never unchecks). */
+let toastTimer = null;
+function showToast(msg, undoFn){
+  let t = document.getElementById('toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.setAttribute('role','status');
+    document.body.appendChild(t);
+  }
+  t.innerHTML = '';
+  const span = document.createElement('span');
+  span.textContent = msg;
+  t.appendChild(span);
+  if(undoFn){
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'Undo';
+    b.addEventListener('click', ()=>{ undoFn(); t.classList.remove('show'); });
+    t.appendChild(b);
+  }
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 7000);
+}
+function markUpTo(order){
+  const added = [];
+  DATA.forEach(p=>p.items.forEach(it=>{
+    if(it[0] <= order && !watched.has(it[0])){ watched.add(it[0]); added.push(it[0]); }
+  }));
+  if(!added.length){ showToast('Everything up to here is already marked watched'); return; }
+  saveState();
+  refreshRowStates();
+  refreshSpoilerState();
+  updateProgress();
+  playCheckSound();
+  showToast(`Marked ${added.length} ${added.length === 1 ? 'entry' : 'entries'} as watched`, ()=>{
+    added.forEach(o=>watched.delete(o));
+    saveState();
+    refreshRowStates();
+    refreshSpoilerState();
+    updateProgress();
+    playUncheckSound();
   });
 }
 

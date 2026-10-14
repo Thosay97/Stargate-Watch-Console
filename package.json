@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@upstash/redis": "^1.38.4"
+    "@upstash/redis": "^1.38.4",
+    "@vercel/analytics": "^2.0.1"
   }
 }

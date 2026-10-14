@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<script>(function(){var t;try{t=localStorage.getItem("sg_theme");}catch(e){}if(t!=="light"&&t!=="dark"){t=(window.matchMedia&&matchMedia("(prefers-color-scheme: light)").matches)?"light":"dark";}document.documentElement.setAttribute("data-theme",t);})();</script>
+
+<title>Stargate Watch Console | Chronological SG-1 & Atlantis Watch Order Tracker</title>
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="An interactive checklist for watching Stargate SG-1, Atlantis, the movies, and Universe in chronological crossover order. Track your progress, hide spoilers, and sync across devices, free.">
+<meta name="keywords" content="Stargate watch order, Stargate SG-1 Atlantis crossover order, Stargate chronological order, Stargate episode tracker, Stargate Universe watch order">
+<meta name="author" content="Thoshan Rathnayake">
+<link rel="canonical" href="https://YOUR-DOMAIN.vercel.app/">
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stargate Watch Console | Chronological SG-1 & Atlantis Watch Order Tracker">
+<meta property="og:description" content="Track your way through the Stargate franchise in chronological crossover order, with progress sync, spoiler hiding, and sound.">
+<meta property="og:url" content="https://YOUR-DOMAIN.vercel.app/">
+<meta property="og:image" content="https://YOUR-DOMAIN.vercel.app/og-image.png">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stargate Watch Console">
+<meta name="twitter:description" content="Track the Stargate franchise in chronological crossover order.">
+<meta name="twitter:image" content="https://YOUR-DOMAIN.vercel.app/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Allura&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Stargate Watch Console",
+  "url": "https://YOUR-DOMAIN.vercel.app/",
+  "description": "An interactive checklist for watching Stargate SG-1, Atlantis, the movies, and Universe in chronological crossover order.",
+  "applicationCategory": "EntertainmentApplication",
+  "operatingSystem": "Any",
+  "author": {
+    "@type": "Person",
+    "name": "Thoshan Rathnayake",
+    "url": "https://github.com/Thosay97"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+<!-- Google AdSense: replace ca-pub-0000000000000000 with your own publisher ID
+     once your AdSense account is approved. See README for setup steps. -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+
+<style>
+  :root{
+    --void:#05070c;
+    --panel:#0d1420;
+    --panel-alt:#0a0f18;
+    --edge:#1b2739;
+    --edge-bright:#2c4363;
+    --text:#dbe6f2;
+    --text-dim:#7488a3;
+    --cyan:#3ad6e6;
+    --cyan-dim:rgba(58,214,230,0.15);
+    --amber:#f0a83c;
+    --amber-dim:rgba(240,168,60,0.15);
+    --sg1-bg:#16294a; --sg1-fg:#8fc9ff;
+    --sga-bg:#0d3a2d; --sga-fg:#7eeab5;
+    --movie-bg:#421029; --movie-fg:#ff9bcf;
+    --sgu-bg:#241344; --sgu-fg:#c6a6ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Rajdhani',sans-serif;
+    background:var(--void);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+  #wormholeCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+  .bg-nebula{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(650px 550px at 12% 15%, rgba(58,214,230,0.11), transparent 60%),
+      radial-gradient(750px 650px at 88% 10%, rgba(155,107,242,0.10), transparent 60%),
+      radial-gradient(850px 700px at 50% 95%, rgba(240,168,60,0.07), transparent 60%),
+      radial-gradient(600px 500px at 90% 80%, rgba(31,157,110,0.08), transparent 60%);
+    background-repeat:no-repeat;
+    animation:drift 50s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{background-position:0 0, 0 0, 0 0, 0 0;}
+    100%{background-position:50px 70px, -60px 40px, 30px -50px, -40px -30px;}
+  }
+  .bg-portal{
+    position:fixed;top:50%;left:50%;
+    width:1000px;height:1000px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    border:1px solid rgba(58,214,230,0.05);
+    z-index:-1;pointer-events:none;
+  }
+  .bg-portal::before{
+    content:"";position:absolute;inset:70px;
+    border-radius:50%;
+    border:1px dashed rgba(240,168,60,0.06);
+  }
+  .bg-portal::after{
+    content:"";position:absolute;inset:160px;
+    border-radius:50%;
+    border:1px solid rgba(58,214,230,0.05);
+    animation:slowspin 100s linear infinite;
+  }
+  @keyframes slowspin{to{transform:rotate(360deg);}}
+
+  .wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:28px 16px 80px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    text-align:center;
+    padding:36px 16px 30px;
+    border:1px solid var(--edge);
+    border-radius:16px;
+    background:radial-gradient(120% 100% at 50% -10%, #0e1c30 0%, #070b12 70%);
+    overflow:hidden;
+    margin-bottom:22px;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    width:40px;height:40px;
+    border-radius:50%;
+    background:radial-gradient(circle, #eafcff 0%, var(--cyan) 35%, transparent 70%);
+    transform:translate(-50%,-50%) scale(0);
+    animation:kawoosh 1.8s ease-out 0.3s 1 forwards;
+    z-index:0;
+  }
+  @keyframes kawoosh{
+    0%{transform:translate(-50%,-50%) scale(0);opacity:1;}
+    60%{opacity:.55;}
+    100%{transform:translate(-50%,-50%) scale(22);opacity:0;}
+  }
+  .hero > *{position:relative;z-index:1;}
+
+  .eyebrow{
+    font-family:'Orbitron',sans-serif;
+    font-size:.68rem;
+    letter-spacing:3px;
+    color:var(--cyan);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Orbitron',sans-serif;
+    font-weight:800;
+    font-size:clamp(1.7rem,5vw,2.5rem);
+    letter-spacing:2px;
+    color:#f4f9ff;
+    text-shadow:0 0 24px rgba(58,214,230,.35);
+  }
+  .hero-sub{
+    color:var(--text-dim);
+    font-size:.95rem;
+    margin-top:6px;
+    font-weight:500;
+  }
+
+  .gate-dial{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    margin-top:26px;
+    flex-wrap:wrap;
+  }
+  .ring-box{position:relative;width:150px;height:150px;flex-shrink:0;}
+  .ring-box svg{width:100%;height:100%;}
+  .chevron{fill:#22314a;stroke:#334a6b;stroke-width:1;transition:fill .5s ease, filter .5s ease;}
+  .chevron.lit{fill:var(--amber);filter:drop-shadow(0 0 6px var(--amber));}
+  .ring-core{fill:url(#coreGrad);}
+  .ring-pct{
+    font-family:'Orbitron',sans-serif;
+    font-size:1.5rem;
+    font-weight:700;
+    fill:#f4f9ff;
+  }
+  .ring-pct-label{
+    font-family:'Rajdhani',sans-serif;
+    font-size:.55rem;
+    letter-spacing:2px;
+    fill:var(--text-dim);
+  }
+
+  .status-readout{
+    text-align:left;
+    max-width:320px;
+  }
+  .status-line{
+    font-size:.78rem;
+    color:var(--text-dim);
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  .status-value{
+    font-size:1.02rem;
+    font-weight:600;
+    color:var(--text);
+    line-height:1.4;
+  }
+  .status-value strong{color:var(--cyan);font-weight:700;}
+  .status-value .b2{color:var(--sga-fg);font-weight:700;}
+
+  /* ---------- CONSOLE (sticky) ---------- */
+  .console{
+    position:sticky;
+    top:10px;
+    z-index:50;
+    background:rgba(13,20,32,0.9);
+    backdrop-filter:blur(10px);
+    border:1px solid var(--edge);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  .console-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-size:.82rem;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .console-top span:last-child{color:var(--cyan);font-family:'Orbitron',sans-serif;font-size:.72rem;}
+
+  .bar-bg{
+    width:100%;height:8px;
+    background:#161f30;
+    border-radius:99px;
+    overflow:hidden;
+    margin-bottom:12px;
+  }
+  .bar-fill{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,var(--cyan),var(--amber));
+    box-shadow:0 0 10px rgba(58,214,230,.6);
+    transition:width .4s ease;
+  }
+
+  .console-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .chips{display:flex;gap:6px;flex-wrap:wrap;}
+  .chip{
+    font-family:'Orbitron',sans-serif;
+    font-size:.62rem;
+    letter-spacing:.5px;
+    padding:6px 11px;
+    border-radius:99px;
+    border:1px solid var(--edge-bright);
+    background:var(--panel-alt);
+    color:var(--text-dim);
+    cursor:pointer;
+    transition:all .2s;
+  }
+  .chip:hover{border-color:var(--cyan);color:var(--text);}
+  .chip.active{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan);}
+
+  .search-box{
+    flex:1;
+    min-width:150px;
+    display:flex;
+    align-items:center;
+    background:var(--panel-alt);
+    border:1px solid var(--edge-bright);
+    border-radius:8px;
+    padding:6px 10px;
+  }
+  .search-box input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-family:'Rajdhani',sans-serif;
+    font-size:.88rem;
+  }
+  .search-box input::placeholder{color:var(--text-dim);}
+
+  .btn-row{display:flex;gap:8px;margin-top:10px;}
+  .btn{
+    font-family:'Rajdhani',sans-serif;
+    font-weight:600;
+    font-size:.8rem;
+    background:var(--panel-alt);
+    color:var(--text);
+    border:1px solid var(--edge-bright);
+    padding:7px 14px;
+    border-radius:7px;
+    cursor:pointer;
+    transition:all .2s;
+  }
+  .btn:hover{border-color:var(--cyan);color:var(--cyan);}
+  .btn.primary{background:var(--amber-dim);border-color:var(--amber);color:var(--amber);}
+  .btn.primary:hover{background:var(--amber);color:#241000;}
+
+  /* ---------- PHASE CARDS ---------- */
+  .phase{
+    border:1px solid var(--edge);
+    border-radius:12px;
+    margin-bottom:16px;
+    overflow:hidden;
+    background:var(--panel);
+  }
+  .phase-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 18px;
+    cursor:pointer;
+    background:linear-gradient(90deg,var(--panel-alt),var(--panel));
+    user-select:none;
+  }
+  .phase-head:hover{background:linear-gradient(90deg,#101a2b,#0f1726);}
+  .phase-name{display:flex;align-items:center;gap:10px;}
+  .phase-num{
+    font-family:'Orbitron',sans-serif;
+    font-size:.75rem;
+    color:var(--void);
+    background:var(--cyan);
+    width:26px;height:26px;
+    border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .phase-title{font-weight:700;font-size:.98rem;color:#f1f6fb;}
+  .phase-meta{display:flex;align-items:center;gap:12px;}
+  .phase-count{font-size:.76rem;color:var(--text-dim);font-weight:600;}
+  .phase-arrow{
+    width:18px;height:18px;
+    border-right:2px solid var(--text-dim);
+    border-bottom:2px solid var(--text-dim);
+    transform:rotate(45deg);
+    transition:transform .3s ease;
+  }
+  .phase.open .phase-arrow{transform:rotate(-135deg);}
+
+  .phase-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .4s ease;
+  }
+  .phase.open .phase-body{max-height:20000px;}
+
+  ul.item-list{list-style:none;}
+  .row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 16px;
+    border-top:1px solid #141d2c;
+    position:relative;
+    transition:background .2s;
+    overflow:hidden;
+  }
+  .row:hover{background:#0f1a2b;}
+  .row.hide{display:none;}
+  .row.next-row{
+    background:rgba(58,214,230,.06);
+    box-shadow:inset 4px 0 0 var(--cyan);
+  }
+  .row.shimmer::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(100deg,transparent 30%, rgba(58,214,230,.35) 50%, transparent 70%);
+    background-size:250% 100%;
+    animation:sweep .7s ease-out;
+    pointer-events:none;
+  }
+  @keyframes sweep{
+    0%{background-position:150% 0;}
+    100%{background-position:-50% 0;}
+  }
+
+  .check{
+    width:22px;height:22px;
+    border-radius:5px;
+    border:2px solid #3a4c68;
+    background:var(--panel-alt);
+    cursor:pointer;
+    flex-shrink:0;
+    position:relative;
+    transition:all .2s;
+  }
+  .check:hover{border-color:var(--cyan);}
+  .check.checked{
+    background:#1f9d6e;
+    border-color:#1f9d6e;
+    box-shadow:0 0 10px rgba(31,157,110,.6);
+  }
+  .check.checked::after{
+    content:"";
+    position:absolute;
+    left:6px;top:2px;
+    width:6px;height:11px;
+    border-right:2px solid white;
+    border-bottom:2px solid white;
+    transform:rotate(45deg);
+  }
+
+  .order{
+    font-family:'Orbitron',sans-serif;
+    font-size:.68rem;
+    color:var(--text-dim);
+    width:24px;
+    flex-shrink:0;
+  }
+  .tag{
+    font-family:'Orbitron',sans-serif;
+    font-size:.6rem;
+    font-weight:700;
+    letter-spacing:.5px;
+    padding:4px 8px;
+    border-radius:5px;
+    flex-shrink:0;
+  }
+  .tag-sg1{background:var(--sg1-bg);color:var(--sg1-fg);}
+  .tag-sga{background:var(--sga-bg);color:var(--sga-fg);}
+  .tag-movie{background:var(--movie-bg);color:var(--movie-fg);}
+  .tag-sgu{background:var(--sgu-bg);color:var(--sgu-fg);}
+
+  .content{flex:1;display:flex;flex-direction:column;min-width:0;}
+  .title{font-size:.92rem;font-weight:600;color:var(--text);}
+  .row.watched .title{color:#5c6c85;text-decoration:line-through;}
+  .note{font-size:.78rem;color:var(--text-dim);margin-top:2px;}
+  .note.highlight{color:var(--amber);font-weight:600;}
+  .note.spoiler-placeholder{
+    font-style:italic;
+    color:#54637c;
+    cursor:pointer;
+    letter-spacing:.3px;
+  }
+  .note.spoiler-placeholder:hover{color:var(--cyan);}
+  .btn.spoiler-active{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan);}
+  .btn.sound-off{opacity:.55;}
+  .btn.music-off{opacity:.55;}
+
+  /* ---------- SYNC PANEL ---------- */
+  .sync-panel{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid var(--edge);
+  }
+  .sync-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .sync-label{
+    font-size:.72rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    font-weight:600;
+    width:100%;
+  }
+  .sync-input{
+    flex:1;
+    min-width:160px;
+    background:var(--panel-alt);
+    border:1px solid var(--edge-bright);
+    border-radius:7px;
+    padding:7px 10px;
+    color:var(--text);
+    font-family:'Rajdhani',sans-serif;
+    font-size:.82rem;
+  }
+  .sync-status{
+    font-size:.72rem;
+    color:var(--text-dim);
+    margin-top:6px;
+  }
+  .sync-status.ok{color:#4fd88a;}
+  .sync-status.err{color:#e0774f;}
+
+  .air-date{
+    font-family:'Rajdhani',sans-serif;
+    font-size:.72rem;
+    font-weight:600;
+    color:var(--text-dim);
+    white-space:nowrap;
+    flex-shrink:0;
+    letter-spacing:.3px;
+  }
+  .air-date-inline{
+    display:none;
+    font-family:'Rajdhani',sans-serif;
+    font-size:.68rem;
+    font-weight:600;
+    color:var(--text-dim);
+    margin-top:2px;
+    letter-spacing:.3px;
+  }
+  @media (max-width: 560px){
+    .air-date{ display:none; }
+    .air-date-inline{ display:block; }
+  }
+
+  .next-badge{
+    font-family:'Orbitron',sans-serif;
+    font-size:.58rem;
+    letter-spacing:1px;
+    background:var(--cyan-dim);
+    color:var(--cyan);
+    border:1px solid var(--cyan);
+    padding:3px 8px;
+    border-radius:99px;
+    flex-shrink:0;
+    animation:pulseGlow 2s ease-in-out infinite;
+  }
+  @keyframes pulseGlow{
+    0%,100%{box-shadow:0 0 0 rgba(58,214,230,.4);}
+    50%{box-shadow:0 0 10px rgba(58,214,230,.7);}
+  }
+
+  footer{
+    text-align:center;
+    color:var(--text-dim);
+    font-size:.78rem;
+    padding:26px 0 6px;
+  }
+  .footer-links{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .footer-links a{
+    font-family:'Orbitron',sans-serif;
+    font-size:.62rem;
+    letter-spacing:1px;
+    color:var(--text-dim);
+    text-decoration:none;
+    border:1px solid var(--edge-bright);
+    background:var(--panel-alt);
+    padding:7px 14px;
+    border-radius:99px;
+    transition:all .2s;
+  }
+  .footer-links a:hover{
+    color:var(--cyan);
+    border-color:var(--cyan);
+    box-shadow:0 0 10px rgba(58,214,230,.3);
+  }
+  .footer-credit{
+    color:var(--text-dim);
+    font-size:.78rem;
+  }
+  .dev-tag{
+    font-family:'Allura', cursive;
+    font-size:1.55rem;
+    letter-spacing:-1.5px;
+    color:var(--amber);
+    text-shadow:0 0 10px rgba(240,168,60,.35);
+    padding:0 2px;
+    vertical-align:-2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+
+  /* =====================================================================
+     GLASSMORPHISM + THEMES (dark default, light via data-theme)
+     Pattern: CSS variables + backdrop-filter, as used in open source glass
+     kits (reimplemented here, no code copied).
+     ===================================================================== */
+  :root, :root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:radial-gradient(1200px 800px at 15% -10%, #0d2238 0%, transparent 60%), radial-gradient(1000px 700px at 100% 10%, #1b1239 0%, transparent 55%), #05070c;
+    --void:#05070c;
+    --text:#e2ecf7;
+    --text-dim:#8ba0bd;
+    --strong:#f6fbff;
+    --cyan:#4fdcec;
+    --cyan-dim:rgba(79,220,236,0.16);
+    --amber:#f5b04c;
+    --amber-dim:rgba(245,176,76,0.16);
+    --glass:rgba(16,26,42,0.42);
+    --glass-strong:rgba(14,22,36,0.62);
+    --glass-soft:rgba(255,255,255,0.055);
+    --panel:var(--glass);
+    --panel-alt:rgba(255,255,255,0.06);
+    --edge:rgba(255,255,255,0.10);
+    --edge-bright:rgba(255,255,255,0.20);
+    --glass-shine:rgba(120,220,255,0.14);
+    --glass-shadow:0 12px 40px rgba(0,0,0,0.45);
+    --glass-inset:inset 0 1px 0 rgba(255,255,255,0.14);
+    --track:rgba(255,255,255,0.08);
+    --row-line:rgba(255,255,255,0.07);
+    --row-hover:rgba(255,255,255,0.06);
+    --check-border:rgba(255,255,255,0.35);
+    --watched:#6f819d;
+    --spoiler:#6c7d97;
+    --chev-fill:#22314a; --chev-stroke:#3b5478;
+    --core-a:#123047; --core-b:#070c14;
+    --on-accent:#05070c;
+    --sg1-bg:rgba(40,90,170,0.35); --sg1-fg:#9fd2ff;
+    --sga-bg:rgba(20,140,100,0.30); --sga-fg:#86f0be;
+    --movie-bg:rgba(190,40,110,0.30); --movie-fg:#ffa6d4;
+    --sgu-bg:rgba(110,70,210,0.32); --sgu-fg:#cdb2ff;
+    --sgo-bg:rgba(200,140,30,0.30); --sgo-fg:#ffd98a;
+    --cursor-ring:#4fdcec; --cursor-core:#bff6ff; --cursor-hot:#f5b04c;
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --bg:radial-gradient(1100px 760px at 10% -10%, #cfe6ff 0%, transparent 60%), radial-gradient(900px 700px at 100% 0%, #e4d6ff 0%, transparent 55%), radial-gradient(900px 700px at 60% 110%, #ffe9c9 0%, transparent 55%), #e8f0fa;
+    --void:#e8f0fa;
+    --text:#10223a;
+    --text-dim:#536882;
+    --strong:#071526;
+    --cyan:#0a86a0;
+    --cyan-dim:rgba(10,134,160,0.14);
+    --amber:#b06400;
+    --amber-dim:rgba(176,100,0,0.13);
+    --glass:rgba(255,255,255,0.50);
+    --glass-strong:rgba(255,255,255,0.72);
+    --glass-soft:rgba(255,255,255,0.55);
+    --panel:var(--glass);
+    --panel-alt:rgba(255,255,255,0.62);
+    --edge:rgba(255,255,255,0.75);
+    --edge-bright:rgba(20,50,90,0.20);
+    --glass-shine:rgba(255,255,255,0.85);
+    --glass-shadow:0 10px 34px rgba(40,70,120,0.18);
+    --glass-inset:inset 0 1px 0 rgba(255,255,255,0.9);
+    --track:rgba(20,50,90,0.10);
+    --row-line:rgba(20,50,90,0.09);
+    --row-hover:rgba(255,255,255,0.55);
+    --check-border:rgba(20,50,90,0.40);
+    --watched:#7d8ea6;
+    --spoiler:#7a8ba3;
+    --chev-fill:#c7d5e8; --chev-stroke:#8fa6c4;
+    --core-a:#e8f4ff; --core-b:#c5d9ef;
+    --on-accent:#ffffff;
+    --sg1-bg:#d6e8ff; --sg1-fg:#124f9c;
+    --sga-bg:#d1f3e2; --sga-fg:#0b6b46;
+    --movie-bg:#fbdbeb; --movie-fg:#a3175f;
+    --sgu-bg:#e6dcfb; --sgu-fg:#5a2fb5;
+    --sgo-bg:#fde6c4; --sgo-fg:#8a4b00;
+    --cursor-ring:#0a86a0; --cursor-core:#0a86a0; --cursor-hot:#b06400;
+  }
+
+  body{background:var(--bg);background-attachment:fixed;color:var(--text);}
+  body, .hero, .console, .phase, .btn, .chip, .row, .search-box, .sync-input{
+    transition:background-color .45s ease, color .45s ease, border-color .45s ease;
+  }
+
+  .tag-sgo{background:var(--sgo-bg);color:var(--sgo-fg);}
+  .tag{backdrop-filter:blur(6px);}
+
+  /* nebula and gate parallax follow the pointer */
+  .bg-nebula{transform:translate3d(calc(var(--px,0) * -24px), calc(var(--py,0) * -18px), 0) scale(1.08);transition:transform .25s ease-out;}
+  .bg-portal{transform:translate(calc(-50% + var(--px,0) * 34px), calc(-50% + var(--py,0) * 26px));}
+  :root[data-theme="light"] .bg-nebula{
+    background:
+      radial-gradient(650px 550px at 12% 15%, rgba(40,160,220,0.22), transparent 60%),
+      radial-gradient(750px 650px at 88% 10%, rgba(150,110,240,0.20), transparent 60%),
+      radial-gradient(850px 700px at 50% 95%, rgba(250,170,70,0.18), transparent 60%),
+      radial-gradient(600px 500px at 90% 80%, rgba(40,180,130,0.16), transparent 60%);
+    background-repeat:no-repeat;
+  }
+  :root[data-theme="light"] .bg-portal{border-color:rgba(10,134,160,0.14);}
+  :root[data-theme="light"] .bg-portal::before{border-color:rgba(176,100,0,0.16);}
+  :root[data-theme="light"] .bg-portal::after{border-color:rgba(10,134,160,0.14);}
+
+  /* glass surfaces */
+  .hero, .console, .phase{
+    background-color:var(--glass);
+    background-image:radial-gradient(420px circle at var(--mx,50%) var(--my,-30%), var(--glass-shine), transparent 62%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    backdrop-filter:blur(18px) saturate(160%);
+    border:1px solid var(--edge);
+    box-shadow:var(--glass-shadow), var(--glass-inset);
+  }
+  .console{background-color:var(--glass-strong);}
+  .phase-head, .phase-head:hover{background:transparent;}
+  .phase-head:hover{background:var(--row-hover);}
+  .row{border-top:1px solid var(--row-line);}
+  .row:hover{background:var(--row-hover);}
+  .row.next-row{background:var(--cyan-dim);}
+  .bar-bg{background:var(--track);}
+  .bar-fill{box-shadow:0 0 12px var(--cyan);}
+  .btn, .chip, .search-box, .sync-input, .footer-links a{
+    background:var(--panel-alt);
+    border-color:var(--edge-bright);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  }
+  .btn.primary{background:var(--amber-dim);border-color:var(--amber);color:var(--amber);}
+  .btn.primary:hover{background:var(--amber);color:var(--on-accent);}
+  .chip.active, .btn.spoiler-active{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan);}
+  .btn:hover, .chip:hover{box-shadow:0 0 14px var(--cyan-dim);}
+  .btn-row{flex-wrap:wrap;}
+  h1{color:var(--strong);text-shadow:0 0 24px var(--cyan-dim);}
+  .ring-pct{fill:var(--strong);}
+  .chevron{fill:var(--chev-fill);stroke:var(--chev-stroke);}
+  .chevron.lit{fill:var(--amber);}
+  .phase-title{color:var(--strong);}
+  .phase-num{color:var(--on-accent);}
+  .check{border-color:var(--check-border);background:var(--panel-alt);}
+  .row.watched .title{color:var(--watched);}
+  .note.spoiler-placeholder{color:var(--spoiler);}
+  .btn-theme .ico{display:inline-block;width:.9em;height:.9em;margin-right:6px;vertical-align:-1px;border-radius:50%;
+    background:conic-gradient(var(--amber) 0 50%, var(--cyan) 50% 100%);}
+  .section-h{font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--strong);margin:6px 4px 4px;}
+  .section-p{color:var(--text-dim);font-size:.85rem;margin:0 4px 16px;line-height:1.5;}
+
+  /* ---------- STARGATE CURSOR + STARDUST ---------- */
+  #trailCanvas{position:fixed;inset:0;z-index:9998;pointer-events:none;}
+  html.gate-on, html.gate-on *{cursor:none !important;}
+  html.gate-on input, html.gate-on textarea{cursor:text !important;}
+  #gateCursor, #gateDot{position:fixed;left:0;top:0;pointer-events:none;z-index:99999;opacity:0;transition:opacity .25s;will-change:transform;}
+  html.gate-on #gateCursor.show, html.gate-on #gateDot.show{opacity:1;}
+  #gateCursor{width:46px;height:46px;margin:-23px 0 0 -23px;}
+  #gateCursor .gc-inner{width:100%;height:100%;transition:transform .22s cubic-bezier(.2,.9,.3,1.3);}
+  #gateCursor svg{width:100%;height:100%;overflow:visible;}
+  #gateCursor .gc-ring{fill:none;stroke:var(--cursor-ring);stroke-width:2.2;opacity:.9;}
+  #gateCursor .gc-spin{transform-origin:24px 24px;animation:gcspin 9s linear infinite;}
+  #gateCursor .gc-chev{fill:var(--cursor-ring);opacity:.85;transition:fill .2s;}
+  #gateCursor .gc-core{fill:var(--cursor-core);opacity:.28;transform-origin:24px 24px;animation:gcpulse 2.4s ease-in-out infinite;}
+  #gateCursor .gc-hz{fill:none;stroke:var(--cursor-core);stroke-width:.8;opacity:.5;stroke-dasharray:2 3;transform-origin:24px 24px;animation:gcspin 4s linear infinite reverse;}
+  #gateCursor.hover .gc-inner{transform:scale(1.55);}
+  #gateCursor.hover .gc-chev{fill:var(--cursor-hot);}
+  #gateCursor.hover .gc-core{opacity:.5;}
+  #gateCursor.down .gc-inner{transform:scale(.72);}
+  #gateCursor.down .gc-core{opacity:.95;}
+  #gateCursor.hidden{opacity:0 !important;}
+  #gateDot{width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--cursor-core);box-shadow:0 0 10px var(--cursor-core);}
+  #gateDot.hidden{opacity:0 !important;}
+  @keyframes gcspin{to{transform:rotate(360deg);}}
+  @keyframes gcpulse{0%,100%{transform:scale(.85);}50%{transform:scale(1.12);}}
+</style>
+</head>
+<body>
+
+<div class="bg-nebula"></div>
+<div class="bg-portal"></div>
+<canvas id="wormholeCanvas"></canvas>
+<canvas id="trailCanvas"></canvas>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">CHEVRON LOCK SEQUENCE ENGAGED</div>
+    <h1>STARGATE WATCH CONSOLE</h1>
+    <div class="hero-sub">Chronological crossover order, SG-1 / Atlantis / Movies / Universe</div>
+
+    <div class="gate-dial">
+      <div class="ring-box">
+        <svg viewBox="0 0 150 150">
+          <defs>
+            <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color:var(--core-a)"/>
+              <stop offset="100%" style="stop-color:var(--core-b)"/>
+            </radialGradient>
+          </defs>
+          <circle class="ring-core" cx="75" cy="75" r="52" stroke="#22314a" stroke-width="1"/>
+          <g id="chevronGroup"></g>
+          <text x="75" y="72" text-anchor="middle" class="ring-pct" id="ringPct">0%</text>
+          <text x="75" y="88" text-anchor="middle" class="ring-pct-label">UNLOCKED</text>
+        </svg>
+      </div>
+      <div class="status-readout">
+        <div class="status-line">Progress</div>
+        <div class="status-value" id="progLine">Loading...</div>
+        <div class="status-line" style="margin-top:10px;">Up Next</div>
+        <div class="status-value" id="nextLine">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="console-top">
+      <span id="progressText">0 / 148 complete</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="barFill"></div></div>
+    <div class="console-row">
+      <div class="chips" id="chips">
+        <button class="chip active" data-filter="all">ALL</button>
+        <button class="chip" data-filter="sg1">SG-1</button>
+        <button class="chip" data-filter="sga">ATLANTIS</button>
+        <button class="chip" data-filter="movie">MOVIES</button>
+        <button class="chip" data-filter="sgu">UNIVERSE</button>
+        <button class="chip" data-filter="sgo">ORIGINS</button>
+      </div>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search episode or plot...">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn primary" id="jumpBtn">Jump to next episode</button>
+      <button class="btn" id="markAllBtn">Mark all watched</button>
+      <button class="btn" id="resetBtn">Reset checklist</button>
+      <button class="btn" id="spoilerBtn">Hide spoilers</button>
+      <button class="btn" id="soundBtn">Sound: On</button>
+      <button class="btn" id="musicBtn">Music: On</button>
+      <button class="btn btn-theme" id="themeBtn">Theme</button>
+    </div>
+
+    <div class="sync-panel">
+      <div class="sync-row">
+        <span class="sync-label">Your sync code (copy this to load the same progress on another device)</span>
+        <input class="sync-input" id="syncCodeDisplay" type="text" readonly>
+        <button class="btn" id="copySyncBtn">Copy</button>
+      </div>
+      <div class="sync-row" style="margin-top:8px;">
+        <span class="sync-label">Load a different sync code</span>
+        <input class="sync-input" id="syncCodeInput" type="text" placeholder="Paste a sync code...">
+        <button class="btn" id="loadSyncBtn">Load</button>
+      </div>
+      <div class="sync-status" id="syncStatus">Running locally, this browser only</div>
+    </div>
+  </div>
+
+  <h2 class="section-h">
+    Full Chronological Watch Order
+  </h2>
+  <p class="section-p">
+    This checklist interleaves Stargate SG-1 seasons 9 and 10, Stargate Atlantis seasons 2 through 5,
+    the direct crossover episodes, the two follow-up movies (The Ark of Truth and Continuum), Stargate
+    Universe, and the optional Stargate Origins web series in the order most fans recommend watching them,
+    so the shows' overlapping timelines and character crossovers land correctly. Episode descriptions are
+    short paraphrases based on public episode guides. Check off each entry as you go, filter by series, switch
+    between light and dark glass themes, and use the sync code below to pick up where you left off on another device.
+  </p>
+
+  <!-- Google AdSense ad unit. Replace ca-pub-0000000000000000 and the
+       data-ad-slot value with your own once your AdSense account and
+       this ad unit are approved. See README for setup steps. -->
+  <ins class="adsbygoogle"
+       style="display:block;margin-bottom:18px;"
+       data-ad-client="ca-pub-0000000000000000"
+       data-ad-slot="0000000000"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <div id="phaseContainer"></div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/Thosay97" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/thoshan-rathnayake-mba-512274176/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://www.facebook.com/thoshan.rathnayake1" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <a href="https://www.instagram.com/_thosay97" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="/privacy.html">Privacy</a>
+    </div>
+    <div class="footer-credit">
+      Built by Thoshan Rathnayake &middot; gamer tag <span class="dev-tag">DrIfTeR</span>
+    </div>
+    <div style="margin-top:6px;">Stargate Watch Console &middot; progress saved automatically in this browser</div>
+  </footer>
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+const DATA = [
+  { phase:1, title:"Wrapping SG-1 Season 9 and Atlantis Season 2", items:[
+    [1,'sg1',"S09E12 - Collateral Damage","SG-1 meets the Galarans; Mitchell is blamed for a murder after taking their memory-sharing device",false,"Jan 13, 2006"],
+    [2,'sg1',"S09E13 - Ripple Effect","Alternate-reality SG-1 teams arrive at the SGC while the real team foils a plot to steal Atlantis' ZPM",false,"Jan 20, 2006"],
+    [3,'sga',"S02E14 - Grace Under Pressure","A jumper sinks after crashing into the ocean and a captain sacrifices himself to save McKay",false,"Jan 27, 2006"],
+    [4,'sg1',"S09E14 - Stronghold","Ba'al brainwashes Jaffa Council members to derail the new democracy; Mitchell faces a dying friend",false,"Jan 27, 2006"],
+    [5,'sg1',"S09E15 - Ethon","The Rand Protectorate joins the Ori and threatens Caledonia with a satellite weapon",false,"Feb 3, 2006"],
+    [6,'sga',"S02E15 - The Tower","On a world with Ancient tech, Sheppard becomes a pawn in a rivalry between royal heirs",false,"Feb 3, 2006"],
+    [7,'sga',"S02E16 - The Long Goodbye","Alien minds from stasis pods are transferred into Weir and Sheppard, who turn out to be enemies",false,"Feb 10, 2006"],
+    [8,'sg1',"S09E16 - Off the Grid","After a Lucian Alliance deal goes bad, SG-1 is captured, then rescued by the Odyssey",false,"Feb 10, 2006"],
+    [9,'sg1',"S09E17 - The Scourge","Ori-engineered bugs overrun the Gamma Site and SG-1 signals for help",false,"Feb 17, 2006"],
+    [10,'sga',"S02E17 - Coup D'etat","Ladon Radim plots to overthrow the Genii leader; a trap on a ruined planet reveals his motives",false,"Feb 17, 2006"],
+    [11,'sga',"S02E18 - Michael","An amnesiac lieutenant is mistreated until he discovers he is actually a Wraith",true,"Feb 24, 2006"],
+    [12,'sga',"S02E19 - Inferno","The team helps the Taranians, but a supervolcano threatens the planet and swallows the Stargate",false,"Mar 3, 2006"],
+    [13,'sg1',"S09E18 - Arthur's Mantle","Mitchell and Carter vanish into another dimension while Teal'c finds the Sodan brutally attacked",false,"Feb 24, 2006"],
+    [14,'sg1',"S09E19 - Crusade","Vala calls the SGC from the Ori galaxy and recounts her undercover life and failed resistance plot",false,"Mar 3, 2006"],
+    [15,'sg1',"S09E20 - Camelot","SG-1 hunts an Ancient weapon in Camelot as the Ori invasion destroys a combined Milky Way fleet",true,"Mar 10, 2006"],
+    [16,'sga',"S02E20 - Allies","A Wraith faction including Michael seeks Atlantis' help against a rival, hinting at the retro-virus' power",true,"Mar 10, 2006"],
+  ]},
+  { phase:2, title:"Early Season 10 and Season 3, Plus the Direct Crossover", items:[
+    [17,'sg1',"S10E01 - Flesh and Blood","Vala gives birth to the Orici, and she and Daniel try to kidnap her aboard an Ori ship",false,"Jul 14, 2006"],
+    [18,'sga',"S03E01 - No Man's Land","After the Wraith betray the expedition, Sheppard works to stop their hive ships from reaching Earth",false,"Jul 14, 2006"],
+    [19,'sga',"S03E02 - Misbegotten","Wraith turned human by the retro-virus get a colony while Woolsey evaluates Weir's leadership",false,"Jul 21, 2006"],
+    [20,'sg1',"S10E02 - Morpheus","On a quest for the Sangraal, the team catches a sleeping sickness that is cured using a lizard's immunity",false,"Jul 21, 2006"],
+    [21,'sg1',"S10E03 - The Pegasus Project","SG-1 teams up with Atlantis to disable the Supergate by linking it to a black hole",true,"Jul 28, 2006"],
+    [22,'sga',"S03E03 - Irresistible","Lucius Lavin charms the whole expedition after Beckett brings him back from a village that adores him",false,"Jul 28, 2006"],
+    [23,'sg1',"S10E04 - Insiders","Ba'al's clones seize the SGC and steal its address list while searching for Merlin's weapon",false,"Aug 4, 2006"],
+    [24,'sga',"S03E04 - Sateda","Ronon is taken to his devastated homeworld by the Wraith and the team races to rescue him",false,"Aug 4, 2006"],
+    [25,'sg1',"S10E05 - Uninvited","Creatures appear on Sodan-cloaked worlds, then turn up at O'Neill's cabin",false,"Aug 11, 2006"],
+    [26,'sga',"S03E05 - Progeny","The team finds a planet built from Ancient technology with inhabitants who may not be organic",true,"Aug 11, 2006"],
+    [27,'sga',"S03E06 - The Real World","Weir wakes in a Washington D.C. sanitarium and must sort real memories from nightmarish visions",false,"Aug 18, 2006"],
+    [28,'sg1',"S10E06 - 200","Milestone 200th episode: a writer seeks SGC help for a fantasy movie, in a comedic meta episode",false,"Aug 18, 2006"],
+  ]},
+  { phase:3, title:"The Mid-Season Climax and The Return", items:[
+    [29,'sg1',"S10E07 - Counterstrike","Adria's Ori forces battle the Jaffa and she destroys the Dakara superweapon",false,"Aug 25, 2006"],
+    [30,'sg1',"S10E08 - Memento Mori","Athena's memory extraction leaves Vala amnesiac and working as a waitress until SG-1 finds her",false,"Sep 8, 2006"],
+    [31,'sga',"S03E07 - Common Ground","Kolya captures Sheppard, who must find common ground with a Wraith to escape",true,"Aug 25, 2006"],
+    [32,'sga',"S03E08 - McKay and Mrs. Miller","McKay's sister is brought to Atlantis, where an alternate-reality Rodney appears",true,"Sep 8, 2006"],
+    [33,'sg1',"S10E09 - Company of Thieves","The Lucian Alliance hijacks the Odyssey, Mitchell infiltrates them, and Paul Emerson is murdered",false,"Sep 15, 2006"],
+    [34,'sga',"S03E09 - Phantoms","A Wraith hallucination device traps the team after the DHD explodes during a search for a missing team",false,"Sep 15, 2006"],
+    [35,'sga',"S03E10 - The Return (Part 1)","The Daedalus finds an Ancient warship and rescued Ancients order Atlantis evacuated; the Asurans later seize the city",true,"Sep 22, 2006"],
+    [36,'sga',"S03E11 - The Return (Part 2)","With O'Neill and Woolsey captured, the team returns to Pegasus and reclaims Atlantis from the Asurans",false,"Apr 13, 2007"],
+    [37,'sg1',"S10E10 - The Quest (Part 1)","SG-1 follows Vala's dream to a planet where they team with Ba'al and Adria and face a dragon",false,"Sep 22, 2006"],
+    [38,'sg1',"S10E11 - The Quest (Part 2)","SG-1 finds Merlin in stasis, and Daniel takes in his consciousness to finish the weapon",false,"Jan 9, 2007"],
+    [39,'sg1',"S10E12 - Line in the Sand","SG-1 phase-shifts a village to evade the Ori, then powers its return with an Ori staff",false,"Jan 16, 2007"],
+  ]},
+  { phase:4, title:"Concluding SG-1 and The Ark of Truth", items:[
+    [40,'sg1',"S10E13 - The Road Not Taken","Carter's Mantle experiments strand her on an alternate Earth under martial law",false,"Jan 23, 2007"],
+    [41,'sg1',"S10E14 - The Shroud","SG-1 finds Daniel turned into an Ori Prior, who then hijacks the Odyssey and kidnaps O'Neill",true,"Jan 30, 2007"],
+    [42,'sga',"S03E12 - Echoes","Whale-like creatures converge on the city, causing ghostly echoes and warning of a natural disaster",false,"Apr 20, 2007"],
+    [43,'sga',"S03E13 - Irresponsible","Lavin poses as an invincible hero with an Ancient shield emitter until Kolya arrives",false,"Apr 27, 2007"],
+    [44,'sga',"S03E14 - Tao of Rodney","An Ancient device gives Rodney superpowers, but his impending death forces him to overcome his ego",false,"May 4, 2007"],
+    [45,'sga',"S03E15 - The Game","Lorne's team finds a planet where Ancient satellites use a game to control people nearing war",false,"May 11, 2007"],
+    [46,'sga',"S03E16 - The Ark","Sheppard's team finds a station with the last surviving humans of a civilization",false,"May 18, 2007"],
+    [47,'sga',"S03E17 - Sunday","An explosion on a mandatory day off kills three and reveals a scientist as a walking time bomb",true,"Jun 1, 2007"],
+    [48,'sg1',"S10E15 - Bounty","The Lucian Alliance puts a bounty on SG-1 after the team destroys its kassa shipment",false,"Feb 6, 2007"],
+    [49,'sg1',"S10E16 - Bad Guys","SG-1 is mistaken for rebels on a planet and uses a naquadah bomb to power the Stargate",false,"Feb 13, 2007"],
+    [50,'sg1',"S10E17 - Talion","Teal'c seeks revenge on a former foe who bombed a Jaffa summit",false,"Feb 20, 2007"],
+    [51,'sg1',"S10E18 - Family Ties","Vala's father Jacek helps stop an attack on Earth, then double-deals and flees",false,"Feb 27, 2007"],
+    [52,'sga',"S03E18 - Submersion","After an ambush by an old Wraith Queen, the team captures her and Teyla's interrogation turns dangerous",false,"Jun 8, 2007"],
+    [53,'sg1',"S10E19 - Dominion","Ba'al snatches the Orici and implants Adria with his symbiote",false,"Mar 6, 2007"],
+    [54,'sg1',"S10E20 - Unending","SG-1 series finale: the Odyssey crew is trapped on a ship stuck in a time-dilation field",true,"Mar 13, 2007"],
+    [55,'movie',"Stargate: The Ark of Truth","SG-1 searches for the Ark of Truth, an Ancient device that could end the Ori threat, and faces an old enemy",true,"Mar 11, 2008"],
+    [56,'sga',"S03E19 - Vengeance","Michael breeds Iratus bug monsters in a lab that overwhelms the team with creatures he cannot control",false,"Jun 15, 2007"],
+    [57,'sga',"S03E20 - First Strike","Season 3 finale: an Asuran satellite beam strands Atlantis in space with 24 hours of power left",true,"Jun 22, 2007"],
+  ]},
+  { phase:5, title:"Atlantis Seasons 4-5, Continuum and Beyond", items:[
+    [58,'sga',"S04E01 - Adrift","Low power strands Atlantis in space, prompting a raid on the Replicator homeworld for a new ZPM",false,"Sep 28, 2007"],
+    [59,'sga',"S04E02 - Lifeline","The team steals a ZPM from the Replicator homeworld, but Weir is captured and the Apollo comes to the rescue",false,"Oct 5, 2007"],
+    [60,'sga',"S04E03 - Reunion","Ronon reunites with old comrades who survived the fall of Sateda, but Carter sees them as a security risk",false,"Oct 12, 2007"],
+    [61,'sga',"S04E04 - Doppelganger","A crystalline being brought from M3X-387 enters minds through touch and causes deadly nightmares",false,"Oct 19, 2007"],
+    [62,'sga',"S04E05 - Travelers","Sheppard is captured by space-dwelling humans who want him to activate an Ancient warship",false,"Oct 26, 2007"],
+    [63,'sga',"S04E06 - Tabula Rasa","A disease erases everyone's memories except Teyla's and Ronon's, so they must find a cure",false,"Nov 2, 2007"],
+    [64,'sga',"S04E07 - Missing","Teyla and Keller find New Athos abandoned while Bola Kai warriors refuse to let anyone leave alive",false,"Nov 9, 2007"],
+    [65,'sga',"S04E08 - The Seer","While searching for missing Athosians, the team meets Davos, a seer who predicts an attack on Atlantis",false,"Nov 16, 2007"],
+    [66,'sga',"S04E09 - Miller's Crossing","McKay's sister is kidnapped and McKay is captured while trying to rescue her",false,"Nov 30, 2007"],
+    [67,'sga',"S04E10 - This Mortal Coil","A mysterious drone hits Atlantis and Weir reappears, hinting that Replicators are already among the team",false,"Dec 7, 2007"],
+    [68,'sga',"S04E11 - Be All My Sins Remember'd","Allied fleets attack the Replicator homeworld and the Replicators are destroyed",true,"Jan 4, 2008"],
+    [69,'sga',"S04E12 - Spoils of War","The team finds a Wraith cloning facility and destroys it with a captured hive ship",false,"Jan 11, 2008"],
+    [70,'sga',"S04E13 - Quarantine","A medical lockdown traps key personnel across Atlantis with unexpected companions",false,"Jan 18, 2008"],
+    [71,'sga',"S04E14 - Harmony","Sheppard and McKay escort a princess to ruins while Genii hunters pursue her",false,"Jan 25, 2008"],
+    [72,'sga',"S04E15 - Outcast","Sheppard returns to Earth for his father's funeral, where a human-form Replicator is loose in San Francisco",false,"Feb 1, 2008"],
+    [73,'sga',"S04E16 - Trio","Trapped in an offworld cavern with no obvious exit, McKay, Keller and Carter get better acquainted",false,"Feb 8, 2008"],
+    [74,'sga',"S04E17 - Midway","Teal'c helps Ronon prepare for a review, but the Wraith capture Midway Station",true,"Feb 15, 2008"],
+    [75,'sga',"S04E18 - The Kindred (Part 1)","Michael's hybrid scheme escalates and puts Teyla in danger (Part 1)",false,"Feb 22, 2008"],
+    [76,'sga',"S04E19 - The Kindred (Part 2)","Michael kidnaps Teyla to build his Wraith-human hybrids and the team finds a clone of Beckett (Part 2)",false,"Feb 29, 2008"],
+    [77,'sga',"S04E20 - The Last Man","Season 4 finale: Sheppard finds Atlantis abandoned 48,000 years in the future and is sent back",true,"Mar 7, 2008"],
+    [78,'sga',"S05E01 - Search and Rescue","Carter leads a rescue for blast survivors while the team fights Michael's forces",false,"Jul 11, 2008"],
+    [79,'movie',"Stargate: Continuum","Ba'al travels to 1939 to create an alternate timeline, and SG-1, the only ones who remember, try to restore it",true,"Jul 29, 2008"],
+    [80,'sga',"S05E02 - The Seed","A cloned Beckett is revived to find a cure while a grown Wraith ship seizes part of Atlantis",false,"Jul 18, 2008"],
+    [81,'sga',"S05E03 - Broken Ties","Ronon reunites with Tyre, who later betrays the team and destroys a Wraith lab",false,"Jul 25, 2008"],
+    [82,'sga',"S05E04 - The Daedalus Variations","The team finds a Daedalus jumping between realities and must get home before its drive burns out",false,"Aug 1, 2008"],
+    [83,'sga',"S05E05 - Ghost in the Machine","Elizabeth Weir returns as a digital being and sacrifices herself to trap the Replicators in deep space",false,"Aug 15, 2008"],
+    [84,'sga',"S05E06 - The Shrine","McKay, suffering a degenerative condition, visits a shrine that temporarily eases his symptoms",false,"Aug 22, 2008"],
+    [85,'sga',"S05E07 - Whispers","Sheppard and Beckett battle Michael's hybrids in a cave; Beckett then leaves Atlantis",false,"Sep 5, 2008"],
+    [86,'sga',"S05E08 - The Queen","Teyla impersonates Todd's Wraith Queen to pursue a gene therapy deal, then fights a rival hive",false,"Sep 12, 2008"],
+    [87,'sga',"S05E09 - Tracker","Ronon and McKay chase Keller's kidnapper, a Runner who brought Wraith hunters to a village",false,"Sep 19, 2008"],
+    [88,'sga',"S05E10 - First Contact","After an alien ship arrives, McKay and Daniel Jackson vanish and are forced to activate a Stargate-destroying device",true,"Sep 26, 2008"],
+    [89,'sga',"S05E11 - The Lost Tribe","Sheppard's ship fights rogue Asgard and the Attero Device facility while Keller is captured by the Wraith",true,"Oct 10, 2008"],
+    [90,'sga',"S05E12 - Outsiders","Sheppard's team helps survivors of the Hoffan plague; Beckett kills a Wraith commander to escape captivity",false,"Oct 17, 2008"],
+    [91,'sga',"S05E13 - Inquisition","Atlantis faces a Coalition trial, where Woolsey defends the team",false,"Oct 24, 2008"],
+    [92,'sga',"S05E14 - The Prodigal","Michael's hybrids invade Atlantis hunting Teyla's baby",false,"Nov 7, 2008"],
+    [93,'sga',"S05E15 - Remnants","Sheppard is abducted by Kolya while Woolsey helps a Sekkari AI reach its destination world",false,"Nov 14, 2008"],
+    [94,'sga',"S05E16 - Brain Storm","McKay attends a rival's demo where a heat-transfer bridge backfires",false,"Nov 21, 2008"],
+    [95,'sga',"S05E17 - Infection","Todd's diseased hive splits apart and Sheppard sends Todd through the Stargate to seek a cure",false,"Dec 5, 2008"],
+    [96,'sga',"S05E18 - Identity","Keller's mind is trapped in a fugitive's body until Ronon destroys the body-switching device",false,"Dec 12, 2008"],
+    [97,'sga',"S05E19 - Vegas","In an alternate Earth, Sheppard and Woolsey hunt a surviving Wraith",false,"Jan 2, 2009"],
+    [98,'sga',"S05E20 - Enemy at the Gate","Atlantis series finale: Sheppard stops a Wraith hive heading for Earth and Atlantis lands on Earth",true,"Jan 9, 2009"],
+    [99,'sgu',"S01E01 - Air (Part 1)","An attack forces the evacuation of Icarus Base, and Rush dials Destiny instead of Earth (Part 1)",false,"Oct 2, 2009"],
+    [100,'sgu',"S01E02 - Air (Part 2)","The crew learns Destiny's life support is failing and needs a repair to survive (Part 2)",false,"Oct 2, 2009"],
+    [101,'sgu',"S01E03 - Air (Part 3)","The team finds a desert planet with a needed mineral while Chloe reconnects with her mother (Part 3)",false,"Oct 9, 2009"],
+    [102,'sgu',"S01E04 - Darkness","Power fails but Destiny steers toward three possibly habitable planets",false,"Oct 16, 2009"],
+    [103,'sgu',"S01E05 - Light","Destiny heads toward a star and a lottery decides who gets seats on the last shuttle",false,"Oct 23, 2009"],
+    [104,'sgu',"S01E06 - Water","The crew gathers water at an ice planet but a living dust cloud stowaway starts absorbing it",false,"Oct 30, 2009"],
+    [105,'sgu',"S01E07 - Earth","Young, Eli and Chloe reach Earth through the stones while Telford takes command",false,"Nov 6, 2009"],
+    [106,'sgu',"S01E08 - Time","The crew on a jungle planet finds a future Kino that predicts their deaths from a deadly disease",false,"Nov 13, 2009"],
+    [107,'sgu',"S01E09 - Life","Scientists find an ancient chair interface and Scott and Wray contact loved ones",false,"Nov 20, 2009"],
+    [108,'sgu',"S01E10 - Justice","Mid-season finale: Spencer is found dead, Young is suspected, and Rush is marooned on an alien planet",true,"Dec 4, 2009"],
+    [109,'sgu',"S01E11 - Space","A malfunction reveals an alien presence near Destiny and Chloe is abducted during the attack",false,"Apr 2, 2010"],
+    [110,'sgu',"S01E12 - Divided","Rush suspects a tracking device aboard Destiny while civilians stage a coup against the military",false,"Apr 9, 2010"],
+    [111,'sgu',"S01E13 - Faith","Destiny reaches an impossible star system and finds a planet that could meet the crew's needs",false,"Apr 16, 2010"],
+    [112,'sgu',"S01E14 - Human","Rush risks his life in a chair experiment and relives his recruitment into the Stargate Program",false,"Apr 23, 2010"],
+    [113,'sgu',"S01E15 - Lost","The offworld team is trapped in ruins and Greer recalls his abusive father",false,"Apr 30, 2010"],
+    [114,'sgu',"S01E16 - Sabotage","An FTL drive explodes and the crew suspects a crew member is controlled by aliens",false,"May 7, 2010"],
+    [115,'sgu',"S01E17 - Pain","Crew members suffer hallucinations tied to their fears and Tamara isolates those affected",false,"May 14, 2010"],
+    [116,'sgu',"S01E18 - Subversion","Rush suspects Telford of working with the Lucian Alliance and Young and O'Neill plan to expose him",false,"May 21, 2010"],
+    [117,'sgu',"S01E19 - Incursion (Part 1)","The Lucian Alliance boards Destiny and takes hostages (Part 1)",false,"Jun 4, 2010"],
+    [118,'sgu',"S01E20 - Incursion (Part 2)","Season 1 finale: Young surrenders control and military personnel face execution (Part 2)",true,"Jun 11, 2010"],
+    [119,'sgu',"S02E01 - Intervention","Young's crew battles Lucian Alliance soldiers for Destiny and Rush's group retakes the ship",false,"Sep 28, 2010"],
+    [120,'sgu',"S02E02 - Aftermath","Rush finds the bridge while a shuttle crashes on a dangerous planet",false,"Oct 5, 2010"],
+    [121,'sgu',"S02E03 - Awakening","Destiny docks with an ancient seed ship and Rush unlinks the ships in time, leaving Telford behind",false,"Oct 12, 2010"],
+    [122,'sgu',"S02E04 - Pathogen","Rush stages a cure for Chloe's alien influence while exploiting her enhanced intelligence",false,"Oct 19, 2010"],
+    [123,'sgu',"S02E05 - Cloverdale","Scott, infected by a plant-like organism, hallucinates an Earth life",false,"Oct 26, 2010"],
+    [124,'sgu',"S02E06 - Trial and Error","Young has dreams of aliens destroying Destiny and the ship runs simulations that mirror them",false,"Nov 2, 2010"],
+    [125,'sgu',"S02E07 - The Greater Good","Rush and Young start an abandoned alien craft's engines and Rush reveals Destiny's true mission",false,"Nov 9, 2010"],
+    [126,'sgu',"S02E08 - Malice","Rush kills Simeon despite orders to take him alive and Chloe flies Destiny back to retrieve Rush",false,"Nov 16, 2010"],
+    [127,'sgu',"S02E09 - Visitation","Destiny finds a shuttle carrying Eden's returned personnel, who remember little of their lives there",false,"Nov 23, 2010"],
+    [128,'sgu',"S02E10 - Resurgence","Mid-season finale: Rush investigates an energy reading and finds a destroyed fleet and attacking drones",true,"Nov 30, 2010"],
+    [129,'sgu',"S02E11 - Deliverance","Chloe's aliens reverse her transformation in exchange for help while the Ursini face the drones",false,"Mar 7, 2011"],
+    [130,'sgu',"S02E12 - Twin Destinies","A future Rush warns the crew against dialing Earth and a future Destiny falls into a star",false,"Mar 14, 2011"],
+    [131,'sgu',"S02E13 - Alliances","Wray and Greer, trapped in rubble at Homeworld Command, struggle to disarm a naquadria bomb",false,"Mar 21, 2011"],
+    [132,'sgu',"S02E14 - Hope","Ginn possesses Chloe and TJ performs Volker's kidney transplant with Greer as donor",false,"Mar 28, 2011"],
+    [133,'sgu',"S02E15 - Seizure","Rush uploads his mind into the ship's computer and Eli locks Ginn and Perry away",true,"Apr 4, 2011"],
+    [134,'sgu',"S02E16 - The Hunt","A catlike predator takes TJ and a soldier, and Greer leads the way back after reaching its lair",false,"Apr 11, 2011"],
+    [135,'sgu',"S02E17 - Common Descent","Scott and Greer meet settlers who are actually Novus colonists, and Novus proves deserted",false,"Apr 18, 2011"],
+    [136,'sgu',"S02E18 - Epilogue","Earthquakes destroy the Novus archive before the crew can upload a possible ALS cure",false,"Apr 25, 2011"],
+    [137,'sgu',"S02E19 - Blockade","Drones block recharging at ordinary stars, so Eli proposes recharging in a blue supergiant",false,"May 2, 2011"],
+    [138,'sgu',"S02E20 - Gauntlet","Series finale: the crew destroys a command ship and most enter stasis for three years",true,"May 9, 2011"],
+  ]},
+  { phase:6, title:"Stargate Origins (Optional Prequel Web Series)", items:[
+    [139,'sgo',"Episode 1","Part 1 of 10: a prequel web series set in 1939 that follows a young Catherine Langford",false,"Feb 15, 2018"],
+    [140,'sgo',"Episode 2","Part 2 of 10 in the web series",false,"Feb 15, 2018"],
+    [141,'sgo',"Episode 3","Part 3 of 10 in the web series",false,"Feb 15, 2018"],
+    [142,'sgo',"Episode 4","Part 4 of 10 in the web series",false,"Feb 22, 2018"],
+    [143,'sgo',"Episode 5","Part 5 of 10 in the web series",false,"Feb 22, 2018"],
+    [144,'sgo',"Episode 6","Part 6 of 10 in the web series",false,"Mar 1, 2018"],
+    [145,'sgo',"Episode 7","Part 7 of 10 in the web series",false,"Mar 1, 2018"],
+    [146,'sgo',"Episode 8","Part 8 of 10 in the web series",false,"Mar 8, 2018"],
+    [147,'sgo',"Episode 9","Part 9 of 10 in the web series",false,"Mar 8, 2018"],
+    [148,'sgo',"Episode 10","Part 10 of 10: the web series finale",false,"Mar 8, 2018"],
+  ]},
+];
+
+const WATCHED_THROUGH = 0;
+const TOTAL = DATA.reduce((n,p)=>n+p.items.length,0);
+const ALL_ITEMS = DATA.reduce((arr,p)=> arr.concat(p.items), []);
+
+/* Recomputes on every change instead of a fixed pair, so it always
+   reflects whatever you've actually checked off. Shows the very next
+   unwatched episode, plus the next unwatched episode from a different
+   show, so two unwatched episodes in a row from the same show (e.g.
+   two SG-1 episodes back to back) don't both show up as "up next". */
+function getNextUnwatched(){
+  const unwatchedSorted = ALL_ITEMS
+    .filter(it => !watched.has(it[0]))
+    .sort((a,b)=> a[0]-b[0]);
+  if(unwatchedSorted.length === 0) return [];
+  const first = unwatchedSorted[0];
+  const second = unwatchedSorted.find(it => it[1] !== first[1]);
+  return second ? [first, second].sort((a,b)=> a[0]-b[0]) : [first];
+}
+const SERIES_LABEL = { sg1:'SG-1', sga:'ATLANTIS', movie:'MOVIE', sgu:'UNIVERSE', sgo:'ORIGINS' };
+
+/* ---------- STATE ---------- */
+const STORAGE_KEY = 'sg_watch_console_v1';
+const SPOILER_KEY = 'sg_spoilers_pref';
+let watched = new Set();
+let currentFilter = 'all';
+let searchTerm = '';
+let spoilersHidden = false;
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      watched = new Set(JSON.parse(raw));
+    } else {
+      DATA.forEach(p=>p.items.forEach(it=>{ if(it[0] <= WATCHED_THROUGH) watched.add(it[0]); }));
+    }
+  }catch(e){
+    DATA.forEach(p=>p.items.forEach(it=>{ if(it[0] <= WATCHED_THROUGH) watched.add(it[0]); }));
+  }
+  spoilersHidden = localStorage.getItem(SPOILER_KEY) === '1';
+}
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...watched]));
+  pushRemote();
+}
+
+/* ---------- RENDER ---------- */
+const container = document.getElementById('phaseContainer');
+
+function buildPhases(){
+  container.innerHTML = '';
+  const nextSet = new Set(getNextUnwatched().map(it => it[0]));
+  DATA.forEach(phase=>{
+    const openDefault = phase.items.some(it => nextSet.has(it[0]));
+    const card = document.createElement('div');
+    card.className = 'phase' + (openDefault ? ' open' : '');
+    card.dataset.phase = phase.phase;
+
+    const head = document.createElement('div');
+    head.className = 'phase-head';
+    head.innerHTML = `
+      <div class="phase-name">
+        <span class="phase-num">${phase.phase}</span>
+        <span class="phase-title">${phase.title}</span>
+      </div>
+      <div class="phase-meta">
+        <span class="phase-count" data-count>${phase.items.length} entries</span>
+        <span class="phase-arrow"></span>
+      </div>`;
+    head.addEventListener('click', ()=>{
+      card.classList.toggle('open');
+      playClickSound();
+    });
+
+    const body = document.createElement('div');
+    body.className = 'phase-body';
+    const ul = document.createElement('ul');
+    ul.className = 'item-list';
+
+    phase.items.forEach(([order, series, title, note, highlight, airDate])=>{
+      const id = 'ep' + order;
+      const isNext = nextSet.has(order);
+      const li = document.createElement('li');
+      li.className = 'row' + (isNext ? ' next-row' : '');
+      li.dataset.series = series;
+      li.dataset.search = (title + ' ' + note).toLowerCase();
+      li.dataset.id = id;
+
+      li.innerHTML = `
+        <button class="check" data-id="${id}" aria-label="Toggle watched"></button>
+        <span class="order">${String(order).padStart(2,'0')}</span>
+        <span class="tag tag-${series}">${SERIES_LABEL[series]}</span>
+        <div class="content">
+          <span class="title">${title}</span>
+          <span class="note${highlight ? ' highlight' : ''}" data-original="${note.replace(/"/g,'&quot;')}">${note}</span>
+          ${airDate ? `<span class="air-date-inline">${airDate}</span>` : ''}
+        </div>
+        ${airDate ? `<span class="air-date">${airDate}</span>` : ''}
+        ${isNext ? '<span class="next-badge">UP NEXT</span>' : ''}
+      `;
+      ul.appendChild(li);
+    });
+
+    body.appendChild(ul);
+    card.appendChild(head);
+    card.appendChild(body);
+    container.appendChild(card);
+  });
+
+  container.querySelectorAll('.check').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      toggleEp(btn.dataset.id, btn);
+    });
+  });
+
+  container.querySelectorAll('.note').forEach(note=>{
+    note.addEventListener('click', ()=>{
+      if(note.classList.contains('spoiler-placeholder')){
+        note.classList.add('revealed');
+        refreshSpoilerState();
+      }
+    });
+  });
+}
+
+function toggleEp(id, btnEl){
+  const order = parseInt(id.replace('ep',''),10);
+  const nowWatched = !watched.has(order);
+  if(nowWatched) watched.add(order); else watched.delete(order);
+  saveState();
+  refreshRowStates();
+
+  if(nowWatched && btnEl){
+    const row = btnEl.closest('.row');
+    row.classList.add('shimmer');
+    setTimeout(()=> row.classList.remove('shimmer'), 750);
+  }
+  if(nowWatched) playCheckSound(); else playUncheckSound();
+  refreshSpoilerState();
+  updateProgress();
+}
+
+function updateNextIndicators(){
+  const nextItems = getNextUnwatched();
+  const nextIds = new Set(nextItems.map(it => 'ep' + it[0]));
+  document.querySelectorAll('.row').forEach(row=>{
+    const isNext = nextIds.has(row.dataset.id);
+    row.classList.toggle('next-row', isNext);
+    let badge = row.querySelector('.next-badge');
+    if(isNext && !badge){
+      badge = document.createElement('span');
+      badge.className = 'next-badge';
+      badge.textContent = 'UP NEXT';
+      row.appendChild(badge);
+    } else if(!isNext && badge){
+      badge.remove();
+    }
+  });
+  return nextItems;
+}
+
+function refreshRowStates(){
+  document.querySelectorAll('.row').forEach(row=>{
+    const order = parseInt(row.dataset.id.replace('ep',''),10);
+    const isWatched = watched.has(order);
+    row.classList.toggle('watched', isWatched);
+    const btn = row.querySelector('.check');
+    btn.classList.toggle('checked', isWatched);
+  });
+}
+
+/* ---------- SPOILERS ---------- */
+function refreshSpoilerState(){
+  document.querySelectorAll('.note').forEach(note=>{
+    const row = note.closest('.row');
+    const isWatched = row.classList.contains('watched');
+    const original = note.dataset.original;
+    if(spoilersHidden && !isWatched && !note.classList.contains('revealed')){
+      note.textContent = 'Spoiler hidden, click to reveal';
+      note.classList.add('spoiler-placeholder');
+    } else {
+      note.textContent = original;
+      note.classList.remove('spoiler-placeholder');
+    }
+  });
+}
+
+function setSpoilerButtonLabel(){
+  const btn = document.getElementById('spoilerBtn');
+  btn.textContent = spoilersHidden ? 'Show spoilers' : 'Hide spoilers';
+  btn.classList.toggle('spoiler-active', spoilersHidden);
+}
+
+/* ---------- CHEVRON RING ---------- */
+const chevronGroup = document.getElementById('chevronGroup');
+const CHEVRON_COUNT = 9;
+function buildChevrons(){
+  const cx = 75, cy = 75, r = 62;
+  for(let i=0;i<CHEVRON_COUNT;i++){
+    const angle = (360 / CHEVRON_COUNT) * i - 90;
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform', `rotate(${angle} ${cx} ${cy})`);
+    g.setAttribute('class','chevron');
+    g.dataset.idx = i;
+    const shape = document.createElementNS('http://www.w3.org/2000/svg','path');
+    shape.setAttribute('d', `M ${cx-6} ${cy-r} L ${cx+6} ${cy-r} L ${cx} ${cy-r+11} Z`);
+    g.appendChild(shape);
+    chevronGroup.appendChild(g);
+  }
+}
+
+/* ---------- PROGRESS ---------- */
+function updateProgress(){
+  const count = watched.size;
+  const pct = Math.round((count / TOTAL) * 100);
+
+  document.getElementById('progressText').textContent = `${count} / ${TOTAL} complete`;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('barFill').style.width = pct + '%';
+  document.getElementById('ringPct').textContent = pct + '%';
+
+  const lit = Math.round((pct/100) * CHEVRON_COUNT);
+  document.querySelectorAll('.chevron').forEach((g,i)=>{
+    g.classList.toggle('lit', i < lit);
+  });
+
+  const nextItems = updateNextIndicators();
+  document.getElementById('progLine').innerHTML =
+    `<strong>${count}</strong> of ${TOTAL} milestones locked in`;
+  if(nextItems.length){
+    const parts = nextItems.map(it => {
+      const label = SERIES_LABEL[it[1]];
+      const cls = it[1] === 'sga' ? 'b2' : '';
+      return `<span class="${cls}">${label} ${it[2].split(' - ')[0]}</span>`;
+    });
+    document.getElementById('nextLine').innerHTML = parts.join(' &nbsp;+&nbsp; ');
+  } else {
+    document.getElementById('nextLine').textContent = 'All caught up';
+  }
+
+  document.querySelectorAll('.phase').forEach(card=>{
+    const rows = card.querySelectorAll('.row');
+    let w = 0;
+    rows.forEach(r=>{ if(watched.has(parseInt(r.dataset.id.replace('ep',''),10))) w++; });
+    card.querySelector('[data-count]').textContent = `${w} / ${rows.length} watched`;
+  });
+}
+
+/* ---------- FILTER + SEARCH ---------- */
+function applyFilters(){
+  const term = searchTerm.trim().toLowerCase();
+  document.querySelectorAll('.row').forEach(row=>{
+    const matchesFilter = currentFilter === 'all' || row.dataset.series === currentFilter;
+    const matchesSearch = !term || row.dataset.search.includes(term);
+    row.classList.toggle('hide', !(matchesFilter && matchesSearch));
+  });
+}
+
+document.getElementById('chips').addEventListener('click', (e)=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  currentFilter = chip.dataset.filter;
+  playClickSound();
+  applyFilters();
+});
+
+document.getElementById('searchInput').addEventListener('input', (e)=>{
+  searchTerm = e.target.value;
+  applyFilters();
+});
+
+/* ---------- BUTTONS ---------- */
+document.getElementById('markAllBtn').addEventListener('click', ()=>{
+  DATA.forEach(p=>p.items.forEach(it=> watched.add(it[0])));
+  saveState();
+  refreshRowStates();
+  refreshSpoilerState();
+  playWhoosh(0.12);
+  updateProgress();
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  watched.clear();
+  saveState();
+  refreshRowStates();
+  refreshSpoilerState();
+  playClickSound();
+  updateProgress();
+});
+document.getElementById('spoilerBtn').addEventListener('click', ()=>{
+  spoilersHidden = !spoilersHidden;
+  if(spoilersHidden){
+    document.querySelectorAll('.note.revealed').forEach(n=>n.classList.remove('revealed'));
+  }
+  localStorage.setItem(SPOILER_KEY, spoilersHidden ? '1' : '0');
+  setSpoilerButtonLabel();
+  playClickSound();
+  refreshSpoilerState();
+  pushRemote();
+});
+document.getElementById('jumpBtn').addEventListener('click', ()=>{
+  const target = document.querySelector('.next-row');
+  if(!target) return;
+  target.closest('.phase').classList.add('open');
+  target.scrollIntoView({behavior:'smooth', block:'center'});
+  target.classList.add('shimmer');
+  playWhoosh(0.13);
+  setTimeout(()=> target.classList.remove('shimmer'), 900);
+});
+
+/* ---------- SOUND ENGINE (synthesized, no audio files) ---------- */
+const SOUND_KEY = 'sg_sound_pref';
+let soundOn = localStorage.getItem(SOUND_KEY) !== '0';
+let audioCtx = null;
+let introPlayed = false;
+
+function ensureAudio(){
+  if(!audioCtx){
+    try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ return; }
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function tone(freq, duration, opts={}){
+  if(!soundOn) return;
+  ensureAudio();
+  if(!audioCtx) return;
+  const t0 = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = opts.type || 'sine';
+  osc.frequency.setValueAtTime(freq, t0);
+  if(opts.slideTo) osc.frequency.exponentialRampToValueAtTime(opts.slideTo, t0 + duration);
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.exponentialRampToValueAtTime(opts.volume || 0.08, t0 + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  osc.connect(gain).connect(audioCtx.destination);
+  osc.start(t0);
+  osc.stop(t0 + duration + 0.03);
+}
+
+function playWhoosh(vol){
+  if(!soundOn) return;
+  ensureAudio();
+  if(!audioCtx) return;
+  const t0 = audioCtx.currentTime;
+  const dur = 0.55;
+  const bufferSize = Math.floor(audioCtx.sampleRate * dur);
+  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for(let i=0;i<bufferSize;i++){ data[i] = (Math.random()*2-1) * (1 - i/bufferSize); }
+  const noise = audioCtx.createBufferSource();
+  noise.buffer = buffer;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.setValueAtTime(180, t0);
+  filter.frequency.exponentialRampToValueAtTime(2200, t0 + dur * 0.9);
+  filter.Q.value = 0.8;
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(vol || 0.14, t0);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  noise.connect(filter).connect(gain).connect(audioCtx.destination);
+  noise.start(t0);
+}
+
+function playCheckSound(){ tone(520, 0.16, {type:'sine', slideTo:790, volume:0.09}); }
+function playUncheckSound(){ tone(480, 0.14, {type:'sine', slideTo:260, volume:0.06}); }
+function playClickSound(){ tone(880, 0.05, {type:'square', volume:0.035}); }
+function playConfirmSound(){ tone(660, 0.1, {type:'sine', slideTo:660, volume:0.08}); }
+
+function setSoundButtonLabel(){
+  const btn = document.getElementById('soundBtn');
+  btn.textContent = soundOn ? 'Sound: On' : 'Sound: Off';
+  btn.classList.toggle('sound-off', !soundOn);
+}
+
+document.getElementById('soundBtn').addEventListener('click', ()=>{
+  soundOn = !soundOn;
+  localStorage.setItem(SOUND_KEY, soundOn ? '1' : '0');
+  setSoundButtonLabel();
+  if(soundOn){ ensureAudio(); playConfirmSound(); }
+  pushRemote();
+});
+
+document.addEventListener('pointerdown', function firstGesture(){
+  ensureAudio();
+  if(!introPlayed && soundOn){
+    introPlayed = true;
+    playWhoosh(0.1);
+  }
+  if(musicOn) startMusic();
+  document.removeEventListener('pointerdown', firstGesture);
+}, { once:true });
+
+/* ---------- BACKGROUND MUSIC (synthesized ambient drone, no audio files) ---------- */
+const MUSIC_KEY = 'sg_music_pref';
+let musicOn = localStorage.getItem(MUSIC_KEY) !== '0';
+let musicNodes = null;
+
+function startMusic(){
+  if(!musicOn) return;
+  ensureAudio();
+  if(!audioCtx || musicNodes) return;
+
+  const now = audioCtx.currentTime;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(700, now);
+  filter.Q.value = 0.3;
+
+  const master = audioCtx.createGain();
+  master.gain.setValueAtTime(0, now);
+  master.gain.linearRampToValueAtTime(0.05, now + 4);
+
+  filter.connect(master).connect(audioCtx.destination);
+
+  // A slow, non-melodic drone: a few detuned low tones, deliberately
+  // ambient rather than musical so it never competes with the show
+  // audio someone might have playing alongside this.
+  const freqs = [55, 82.5, 110, 164.81];
+  const oscs = freqs.map((f, i)=>{
+    const osc = audioCtx.createOscillator();
+    osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+    osc.frequency.setValueAtTime(f, now);
+    const g = audioCtx.createGain();
+    g.gain.setValueAtTime(1 / freqs.length, now);
+    osc.connect(g).connect(filter);
+    osc.start(now);
+    return osc;
+  });
+
+  // Very slow LFO sweeping the filter cutoff so the drone breathes
+  // instead of sitting static.
+  const lfo = audioCtx.createOscillator();
+  lfo.frequency.setValueAtTime(0.045, now);
+  const lfoGain = audioCtx.createGain();
+  lfoGain.gain.setValueAtTime(260, now);
+  lfo.connect(lfoGain).connect(filter.frequency);
+  lfo.start(now);
+
+  musicNodes = { master, filter, oscs, lfo };
+}
+
+function stopMusic(){
+  if(!musicNodes) return;
+  const now = audioCtx.currentTime;
+  const nodes = musicNodes;
+  musicNodes = null;
+  nodes.master.gain.cancelScheduledValues(now);
+  nodes.master.gain.setValueAtTime(nodes.master.gain.value, now);
+  nodes.master.gain.linearRampToValueAtTime(0, now + 1.2);
+  setTimeout(()=>{
+    nodes.oscs.forEach(o=>{ try{ o.stop(); }catch(e){} });
+    try{ nodes.lfo.stop(); }catch(e){}
+  }, 1300);
+}
+
+function setMusicButtonLabel(){
+  const btn = document.getElementById('musicBtn');
+  btn.textContent = musicOn ? 'Music: On' : 'Music: Off';
+  btn.classList.toggle('music-off', !musicOn);
+}
+
+document.getElementById('musicBtn').addEventListener('click', ()=>{
+  musicOn = !musicOn;
+  localStorage.setItem(MUSIC_KEY, musicOn ? '1' : '0');
+  setMusicButtonLabel();
+  if(musicOn){ ensureAudio(); startMusic(); } else { stopMusic(); }
+});
+
+/* ---------- THEME ---------- */
+const THEME_KEY = 'sg_theme';
+const rootEl = document.documentElement;
+function isLight(){ return rootEl.getAttribute('data-theme') === 'light'; }
+function setThemeButtonLabel(){
+  const b = document.getElementById('themeBtn');
+  if(b) b.innerHTML = `<span class="ico"></span>Theme: ${isLight() ? 'Light' : 'Dark'}`;
+}
+function applyTheme(t){
+  rootEl.setAttribute('data-theme', t);
+  try{ localStorage.setItem(THEME_KEY, t); }catch(e){}
+  setThemeButtonLabel();
+}
+document.getElementById('themeBtn').addEventListener('click', ()=>{
+  applyTheme(isLight() ? 'dark' : 'light');
+  playClickSound();
+});
+setThemeButtonLabel();
+
+/* ---------- SHARED POINTER STATE ---------- */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const mouse = { x: -999, y: -999, sx: -999, sy: -999, active: false, speed: 0 };
+let scrollV = 0, lastScrollY = window.scrollY, warpBoost = 0;
+const shockwaves = [];
+const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+/* ---------- INTERACTIVE BACKGROUND (dust + warp stars + shockwaves) ---------- */
+const canvas = document.getElementById('wormholeCanvas');
+const ctx = canvas.getContext('2d');
+const tCanvas = document.getElementById('trailCanvas');
+const tctx = tCanvas.getContext('2d');
+let cw = 0, ch = 0;
+function resizeCanvas(){
+  cw = window.innerWidth; ch = window.innerHeight;
+  [canvas, tCanvas].forEach(c=>{ c.width = cw*dpr; c.height = ch*dpr; c.style.width = cw+'px'; c.style.height = ch+'px'; });
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  tctx.setTransform(dpr,0,0,dpr,0,0);
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function onMove(x, y){
+  const dx = x - (mouse.x < -900 ? x : mouse.x), dy = y - (mouse.y < -900 ? y : mouse.y);
+  mouse.speed = Math.min(60, mouse.speed * 0.6 + Math.hypot(dx,dy) * 0.4);
+  mouse.x = x; mouse.y = y; mouse.active = true;
+  if(mouse.sx < -900){ mouse.sx = x; mouse.sy = y; }
+  rootEl.style.setProperty('--px', ((x / cw) * 2 - 1).toFixed(3));
+  rootEl.style.setProperty('--py', ((y / ch) * 2 - 1).toFixed(3));
+  spawnStardust(x, y, mouse.speed);
+}
+window.addEventListener('mousemove', e=> onMove(e.clientX, e.clientY));
+document.addEventListener('mouseleave', ()=>{ mouse.active = false; });
+window.addEventListener('touchmove', e=>{
+  if(e.touches && e.touches[0]) onMove(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive:true });
+window.addEventListener('touchend', ()=>{ mouse.active = false; });
+window.addEventListener('scroll', ()=>{
+  const y = window.scrollY;
+  scrollV = scrollV * 0.7 + (y - lastScrollY) * 0.3;
+  lastScrollY = y;
+}, { passive:true });
+function pointerBurst(x, y){
+  shockwaves.push({ x, y, r: 6, max: 260, a: 1 });
+  shockwaves.push({ x, y, r: 0, max: 170, a: 0.8 });
+  warpBoost = Math.min(warpBoost + 7, 14);
+  for(let i=0;i<22;i++) spawnStardust(x, y, 40, true);
+  particles.forEach(p=>{
+    const dx = p.x - x, dy = p.y - y, d = Math.hypot(dx,dy) || 1;
+    if(d < 320){ const f = (1 - d/320) * 5; p.vx += dx/d * f; p.vy += dy/d * f; }
+  });
+}
+window.addEventListener('pointerdown', e=> pointerBurst(e.clientX, e.clientY));
+
+/* dust that gets pulled into the gate */
+const PARTICLE_COUNT = 110;
+const PULL_RADIUS = 240;
+const particles = [];
+function makeParticle(){
+  return {
+    x: Math.random() * cw, y: Math.random() * ch,
+    vx: (Math.random() - 0.5) * 0.15, vy: (Math.random() - 0.5) * 0.15,
+    r: Math.random() * 1.6 + 0.6,
+    baseAlpha: Math.random() * 0.5 + 0.25,
+    phase: Math.random() * Math.PI * 2,
+    hue: Math.random() < 0.85 ? 'a' : 'b'
+  };
+}
+for(let i=0;i<PARTICLE_COUNT;i++) particles.push(makeParticle());
+
+/* warp starfield: streaks radiate from a vanishing point that follows the cursor */
+const STAR_COUNT = 130;
+const stars = [];
+let vpx = cw/2, vpy = ch/2;
+function makeStar(initial){
+  const a = Math.random() * Math.PI * 2;
+  const maxR = Math.hypot(cw, ch) * 0.6;
+  return { a, r: initial ? Math.random() * maxR : Math.random() * 30, s: 0.3 + Math.random() * 1.1, w: 0.5 + Math.random() * 1.3, hue: Math.random() < 0.8 ? 'a' : 'b' };
+}
+for(let i=0;i<STAR_COUNT;i++) stars.push(makeStar(true));
+
+function pal(){
+  return isLight()
+    ? { a:'14,110,140', b:'176,100,0', star:'40,70,130', glow:'10,134,160' }
+    : { a:'160,232,245', b:'250,190,110', star:'225,240,255', glow:'79,220,236' };
+}
+
+/* ---------- STARDUST TRAIL (separate overlay canvas) ---------- */
+const dust = [];
+const tail = [];
+function spawnStardust(x, y, speed, burst){
+  if(reduceMotion || dust.length > 420) return;
+  const n = burst ? 1 : Math.min(4, 1 + Math.floor(speed / 14));
+  for(let i=0;i<n;i++){
+    const ang = Math.random() * Math.PI * 2;
+    const v = (burst ? 1.5 + Math.random() * 4 : Math.random() * 1.1);
+    dust.push({
+      x: x + (Math.random()-0.5) * 6, y: y + (Math.random()-0.5) * 6,
+      vx: Math.cos(ang) * v, vy: Math.sin(ang) * v + (burst ? 0 : 0.12),
+      life: 1, decay: 0.012 + Math.random() * 0.018,
+      r: 0.7 + Math.random() * 2, hue: Math.random() < 0.62 ? 'a' : 'b',
+      star: Math.random() < 0.13, rot: Math.random() * Math.PI
+    });
+  }
+}
+function drawSparkle(c, x, y, size, rot){
+  c.save(); c.translate(x, y); c.rotate(rot);
+  c.beginPath();
+  c.moveTo(0, -size); c.quadraticCurveTo(size*0.12, -size*0.12, size, 0);
+  c.quadraticCurveTo(size*0.12, size*0.12, 0, size);
+  c.quadraticCurveTo(-size*0.12, size*0.12, -size, 0);
+  c.quadraticCurveTo(-size*0.12, -size*0.12, 0, -size);
+  c.fill(); c.restore();
+}
+
+let frame = 0;
+function animate(){
+  frame++;
+  const P = pal();
+  const light = isLight();
+  mouse.speed *= 0.92;
+  warpBoost *= 0.93;
+  scrollV *= 0.9;
+
+  if(mouse.sx > -900){
+    mouse.sx += (mouse.x - mouse.sx) * 0.28;
+    mouse.sy += (mouse.y - mouse.sy) * 0.28;
+  }
+
+  /* ===== background canvas ===== */
+  ctx.clearRect(0,0,cw,ch);
+  const tx = mouse.active ? mouse.x : cw/2, ty = mouse.active ? mouse.y : ch/2;
+  vpx += (tx - vpx) * 0.05; vpy += (ty - vpy) * 0.05;
+
+  if(mouse.active){
+    const glow = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, PULL_RADIUS);
+    glow.addColorStop(0, `rgba(${P.glow},${light ? 0.16 : 0.17})`);
+    glow.addColorStop(0.5, `rgba(${P.glow},0.05)`);
+    glow.addColorStop(1, `rgba(${P.glow},0)`);
+    ctx.globalCompositeOperation = light ? 'source-over' : 'lighter';
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(mouse.x, mouse.y, PULL_RADIUS, 0, Math.PI*2); ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+
+    /* rotating event-horizon rings around the pointer */
+    ctx.lineWidth = 1;
+    [[70, 1, 0.22],[108, -1.4, 0.14],[150, 0.8, 0.08]].forEach(([r, dir, al])=>{
+      ctx.save();
+      ctx.translate(mouse.x, mouse.y);
+      ctx.rotate(frame * 0.006 * dir);
+      ctx.setLineDash([3, 9]);
+      ctx.strokeStyle = `rgba(${P.glow},${al + Math.min(0.2, mouse.speed * 0.004)})`;
+      ctx.beginPath(); ctx.arc(0, 0, r + Math.sin(frame*0.03 + r) * 3, 0, Math.PI*2); ctx.stroke();
+      ctx.restore();
+    });
+    ctx.setLineDash([]);
+  }
+
+  /* warp stars */
+  const boost = reduceMotion ? 0 : (mouse.speed * 0.05 + Math.abs(scrollV) * 0.08 + warpBoost);
+  const maxR = Math.hypot(cw, ch) * 0.62;
+  stars.forEach(st=>{
+    const prev = st.r;
+    if(!reduceMotion) st.r += (0.12 + boost) * st.s * (1 + st.r / 180);
+    if(st.r > maxR){ Object.assign(st, makeStar(false)); return; }
+    const len = Math.max(1, (st.r - prev) * 2.2 + boost * st.s * 2);
+    const cos = Math.cos(st.a), sin = Math.sin(st.a);
+    const x2 = vpx + cos * st.r, y2 = vpy + sin * st.r;
+    const x1 = vpx + cos * Math.max(0, st.r - len), y1 = vpy + sin * Math.max(0, st.r - len);
+    const fade = Math.min(1, st.r / 90) * (light ? 0.5 : 0.7);
+    ctx.strokeStyle = `rgba(${st.hue==='a' ? P.star : P.b},${fade})`;
+    ctx.lineWidth = st.w * (0.6 + st.r / maxR);
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  });
+
+  /* click shockwaves (event horizon ripples) */
+  for(let i = shockwaves.length - 1; i >= 0; i--){
+    const w = shockwaves[i];
+    w.r += (w.max - w.r) * 0.06 + 1.2;
+    w.a *= 0.955;
+    if(w.a < 0.02){ shockwaves.splice(i,1); continue; }
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = `rgba(${P.glow},${w.a * 0.6})`;
+    ctx.beginPath(); ctx.arc(w.x, w.y, w.r, 0, Math.PI*2); ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = `rgba(${P.b},${w.a * 0.35})`;
+    ctx.beginPath(); ctx.arc(w.x, w.y, w.r * 0.72, 0, Math.PI*2); ctx.stroke();
+  }
+
+  /* dust */
+  particles.forEach(p=>{
+    if(mouse.active){
+      const dx = mouse.x - p.x, dy = mouse.y - p.y;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 0.001;
+      if(dist < PULL_RADIUS){
+        const strength = (1 - dist / PULL_RADIUS);
+        const nx = dx / dist, ny = dy / dist, tx2 = -ny, ty2 = nx;
+        p.vx += (nx * 0.035 + tx2 * 0.055) * strength;
+        p.vy += (ny * 0.035 + ty2 * 0.055) * strength;
+      }
+    }
+    p.vx *= 0.965; p.vy *= 0.965;
+    p.x += p.vx; p.y += p.vy;
+    if(p.x < -10) p.x = cw + 10;
+    if(p.x > cw + 10) p.x = -10;
+    if(p.y < -10) p.y = ch + 10;
+    if(p.y > ch + 10) p.y = -10;
+    const twinkle = 0.5 + 0.5 * Math.sin(frame * 0.02 + p.phase);
+    const alpha = p.baseAlpha * (0.6 + 0.4 * twinkle) * (light ? 0.85 : 1);
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(${p.hue === 'a' ? P.a : P.b},${alpha})`;
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fill();
+  });
+
+  /* ===== trail canvas: comet tail + stardust ===== */
+  tctx.clearRect(0,0,cw,ch);
+  if(mouse.sx > -900){
+    if(mouse.active){ tail.push({ x: mouse.sx, y: mouse.sy }); if(tail.length > 18) tail.shift(); }
+    else if(tail.length){ tail.shift(); }
+  }
+  tctx.globalCompositeOperation = light ? 'source-over' : 'lighter';
+  tctx.lineCap = 'round';
+  for(let i = 1; i < tail.length; i++){
+    const t = i / tail.length;
+    tctx.strokeStyle = `rgba(${P.glow},${t * (light ? 0.38 : 0.45)})`;
+    tctx.lineWidth = t * 5;
+    tctx.beginPath(); tctx.moveTo(tail[i-1].x, tail[i-1].y); tctx.lineTo(tail[i].x, tail[i].y); tctx.stroke();
+  }
+  for(let i = dust.length - 1; i >= 0; i--){
+    const d = dust[i];
+    d.x += d.vx; d.y += d.vy; d.vx *= 0.97; d.vy *= 0.97; d.vy += 0.008;
+    d.life -= d.decay; d.rot += 0.05;
+    if(d.life <= 0){ dust.splice(i,1); continue; }
+    const col = d.hue === 'a' ? (light ? P.glow : P.star) : P.b;
+    tctx.fillStyle = `rgba(${col},${d.life * (light ? 0.8 : 0.9)})`;
+    if(d.star){
+      drawSparkle(tctx, d.x, d.y, 3 + d.r * 2.4 * d.life, d.rot);
+    } else {
+      tctx.beginPath(); tctx.arc(d.x, d.y, d.r * (0.4 + d.life * 0.6), 0, Math.PI*2); tctx.fill();
+    }
+  }
+  tctx.globalCompositeOperation = 'source-over';
+
+  /* ===== gate cursor position ===== */
+  if(gateEl && mouse.x > -900){
+    gateEl.style.transform = `translate3d(${mouse.sx}px,${mouse.sy}px,0)`;
+    dotEl.style.transform = `translate3d(${mouse.x}px,${mouse.y}px,0)`;
+  }
+  requestAnimationFrame(animate);
+}
+
+/* ---------- STARGATE CURSOR ---------- */
+let gateEl = null, dotEl = null;
+if(finePointer){
+  rootEl.classList.add('gate-on');
+  gateEl = document.createElement('div');
+  gateEl.id = 'gateCursor';
+  let chevs = '';
+  for(let i=0;i<9;i++){
+    chevs += `<path class="gc-chev" d="M20.6 1.2 L27.4 1.2 L24 7.4 Z" transform="rotate(${i*40} 24 24)"/>`;
+  }
+  gateEl.innerHTML = `<div class="gc-inner"><svg viewBox="0 0 48 48" aria-hidden="true">
+      <circle class="gc-core" cx="24" cy="24" r="13"/>
+      <circle class="gc-hz" cx="24" cy="24" r="10"/>
+      <g class="gc-spin"><circle class="gc-ring" cx="24" cy="24" r="19.5"/>${chevs}</g>
+    </svg></div>`;
+  dotEl = document.createElement('div');
+  dotEl.id = 'gateDot';
+  document.body.appendChild(gateEl);
+  document.body.appendChild(dotEl);
+
+  const HOT = 'a,button,.row,.phase-head,.chip,.check,.note.spoiler-placeholder,label';
+  window.addEventListener('mousemove', e=>{
+    gateEl.classList.add('show'); dotEl.classList.add('show');
+    const t = e.target;
+    const overText = t && t.closest && t.closest('input,textarea');
+    gateEl.classList.toggle('hidden', !!overText);
+    dotEl.classList.toggle('hidden', !!overText);
+    gateEl.classList.toggle('hover', !!(t && t.closest && t.closest(HOT)));
+  });
+  document.addEventListener('mouseleave', ()=>{ gateEl.classList.remove('show'); dotEl.classList.remove('show'); });
+  document.addEventListener('mouseenter', ()=>{ gateEl.classList.add('show'); dotEl.classList.add('show'); });
+  window.addEventListener('mousedown', ()=> gateEl.classList.add('down'));
+  window.addEventListener('mouseup', ()=> gateEl.classList.remove('down'));
+}
+
+/* glass panels catch a highlight that follows the pointer */
+let shinePending = false;
+document.addEventListener('pointermove', e=>{
+  if(shinePending) return;
+  shinePending = true;
+  requestAnimationFrame(()=>{
+    shinePending = false;
+    const el = e.target && e.target.closest && e.target.closest('.hero,.console,.phase');
+    if(!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+}, { passive:true });
+
+animate();
+
+/* ---------- CROSS-DEVICE SYNC ----------
+   No accounts, no fingerprinting. Each browser generates a random
+   sync code and stores it locally. Copy that code into another
+   browser to pull the same progress down. The code only works once
+   this is deployed with the /api/progress serverless function and a
+   Redis store attached (see README). Without that, everything still
+   works, it just stays local to this browser. */
+const SYNC_ID_KEY = 'sg_sync_id';
+function genSyncId(){
+  return (window.crypto && crypto.randomUUID)
+    ? crypto.randomUUID()
+    : 'sg-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+let syncId = localStorage.getItem(SYNC_ID_KEY);
+if(!syncId){ syncId = genSyncId(); localStorage.setItem(SYNC_ID_KEY, syncId); }
+
+const syncStatusEl = document.getElementById('syncStatus');
+function setSyncStatus(text, kind){
+  syncStatusEl.textContent = text;
+  syncStatusEl.className = 'sync-status' + (kind ? ' ' + kind : '');
+}
+
+let pushTimer = null;
+function pushRemote(){
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(async ()=>{
+    try{
+      const payload = { watched:[...watched], spoilersHidden, soundOn, updatedAt: Date.now() };
+      const res = await fetch('/api/progress?id=' + encodeURIComponent(syncId), {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify(payload)
+      });
+      setSyncStatus(res.ok ? 'Synced just now' : 'Sync unavailable, saved locally only', res.ok ? 'ok' : 'err');
+    }catch(e){
+      setSyncStatus('Sync unavailable, saved locally only', 'err');
+    }
+  }, 700);
+}
+
+async function pullRemote(id){
+  setSyncStatus('Loading sync code...');
+  try{
+    const res = await fetch('/api/progress?id=' + encodeURIComponent(id));
+    if(!res.ok) throw new Error('bad response');
+    const json = await res.json();
+    if(json && json.data){
+      watched = new Set(json.data.watched || []);
+      spoilersHidden = !!json.data.spoilersHidden;
+      soundOn = json.data.soundOn !== false;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...watched]));
+      localStorage.setItem(SPOILER_KEY, spoilersHidden ? '1' : '0');
+      localStorage.setItem(SOUND_KEY, soundOn ? '1' : '0');
+      refreshRowStates();
+      setSpoilerButtonLabel();
+      setSoundButtonLabel();
+      refreshSpoilerState();
+      updateProgress();
+      setSyncStatus('Loaded synced progress', 'ok');
+      return true;
+    }
+    setSyncStatus('No saved progress found for that code yet');
+    return false;
+  }catch(e){
+    setSyncStatus('Sync server not reachable (only works once deployed)', 'err');
+    return false;
+  }
+}
+
+document.getElementById('syncCodeDisplay').value = syncId;
+document.getElementById('copySyncBtn').addEventListener('click', ()=>{
+  const input = document.getElementById('syncCodeDisplay');
+  input.select();
+  if(navigator.clipboard) navigator.clipboard.writeText(syncId).catch(()=>{});
+  playClickSound();
+  setSyncStatus('Sync code copied to clipboard', 'ok');
+});
+document.getElementById('loadSyncBtn').addEventListener('click', async ()=>{
+  const val = document.getElementById('syncCodeInput').value.trim();
+  if(!val) return;
+  playClickSound();
+  const ok = await pullRemote(val);
+  if(ok){
+    syncId = val;
+    localStorage.setItem(SYNC_ID_KEY, syncId);
+    document.getElementById('syncCodeDisplay').value = syncId;
+    document.getElementById('syncCodeInput').value = '';
+  }
+});
+
+async function initialSync(){
+  const found = await pullRemote(syncId);
+  if(!found){
+    pushRemote();
+    setSyncStatus('Ready, copy the sync code above to use this on another device');
+  }
+}
+
+/* ---------- INIT ---------- */
+loadState();
+buildChevrons();
+buildPhases();
+refreshRowStates();
+setSpoilerButtonLabel();
+setSoundButtonLabel();
+setMusicButtonLabel();
+refreshSpoilerState();
+updateProgress();
+initialSync();
+</script>
+</body>
+</html>

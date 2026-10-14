@@ -54,6 +54,7 @@ export default async function handler(req, res) {
     }
 
     const record = {
+      v: body.v === 2 ? 2 : 1,
       watched: body.watched.filter(n => Number.isInteger(n)).slice(0, 500),
       spoilersHidden: !!body.spoilersHidden,
       soundOn: body.soundOn !== false,

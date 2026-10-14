@@ -1,7 +1,7 @@
 # Stargate Watch Console
 
 A single-page checklist for the SG-1/Atlantis/Universe crossover watch order
-(148 entries, including the optional Stargate Origins web series), with
+(367 entries from the 1994 film onward, including the optional Stargate Origins web series), with
 per-episode progress tracking, spoiler hiding, synthesized sound and music,
 a glassmorphism design with light and dark themes, a Stargate-style gate
 cursor with stardust trails, an interactive warp-speed background,
@@ -25,7 +25,8 @@ cross-device sync, and basic SEO. It is ad-free.
 - **Stardust and comet trails** follow the pointer; clicks fire an event
   horizon shockwave that pushes the dust and sends the background into warp.
   The starfield also reacts to mouse speed and scrolling.
-- **Stargate Origins** added as phase 6 (entries 139 to 148).
+- **Full run from the beginning**: the 1994 film, every SG-1 episode and Atlantis from Season 1, interleaved by air date (367 entries). Saved progress from the earlier shorter list is migrated automatically, including synced progress.
+- **Stargate Origins** added at the end.
 - **Episode descriptions rewritten** as short paraphrases from public episode
   guides (Wikipedia season pages). IMDb forbids automated access, so it was
   not scraped. Origins episodes are untitled "Episode N" on Wikipedia, so

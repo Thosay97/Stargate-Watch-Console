@@ -14,20 +14,20 @@
 <meta name="description" content="An interactive checklist for watching Stargate SG-1, Atlantis, the movies, and Universe in chronological crossover order. Track your progress, hide spoilers, and sync across devices, free.">
 <meta name="keywords" content="Stargate watch order, Stargate SG-1 Atlantis crossover order, Stargate chronological order, Stargate episode tracker, Stargate Universe watch order">
 <meta name="author" content="Thoshan Rathnayake">
-<link rel="canonical" href="https://YOUR-DOMAIN.vercel.app/">
+<link rel="canonical" href="https://stargate-watch-console.vercel.app/">
 
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Stargate Watch Console | Chronological SG-1 & Atlantis Watch Order Tracker">
 <meta property="og:description" content="Track your way through the Stargate franchise in chronological crossover order, with progress sync, spoiler hiding, and sound.">
-<meta property="og:url" content="https://YOUR-DOMAIN.vercel.app/">
-<meta property="og:image" content="https://YOUR-DOMAIN.vercel.app/og-image.png">
+<meta property="og:url" content="https://stargate-watch-console.vercel.app/">
+<meta property="og:image" content="https://stargate-watch-console.vercel.app/og-image.png">
 
 <!-- Twitter card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Stargate Watch Console">
 <meta name="twitter:description" content="Track the Stargate franchise in chronological crossover order.">
-<meta name="twitter:image" content="https://YOUR-DOMAIN.vercel.app/og-image.png">
+<meta name="twitter:image" content="https://stargate-watch-console.vercel.app/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +38,7 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Stargate Watch Console",
-  "url": "https://YOUR-DOMAIN.vercel.app/",
+  "url": "https://stargate-watch-console.vercel.app/",
   "description": "An interactive checklist for watching Stargate SG-1, Atlantis, the movies, and Universe in chronological crossover order.",
   "applicationCategory": "EntertainmentApplication",
   "operatingSystem": "Any",
@@ -756,6 +756,14 @@
   #gateDot.hidden{opacity:0 !important;}
   @keyframes gcspin{to{transform:rotate(360deg);}}
   @keyframes gcpulse{0%,100%{transform:scale(.85);}50%{transform:scale(1.12);}}
+
+  .music-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;}
+  .music-label{font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
+  .track-select{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.82rem;color:var(--text);background:var(--panel-alt);border:1px solid var(--edge-bright);border-radius:7px;padding:6px 10px;min-width:210px;max-width:100%;}
+  .track-select option{background:var(--void);color:var(--text);}
+  .track-select:hover,.track-select:focus{border-color:var(--cyan);outline:none;}
+  #volRange{width:110px;accent-color:var(--cyan);}
+  .now-playing{font-size:.74rem;color:var(--cyan);font-weight:600;flex-basis:100%;}
 </style>
 </head>
 <body>
@@ -824,6 +832,14 @@
       <button class="btn" id="musicBtn">Music: On</button>
       <button class="btn btn-theme" id="themeBtn">Theme</button>
     </div>
+    <div class="music-row">
+      <label class="music-label" for="trackSelect">Soundtrack</label>
+      <select id="trackSelect" class="track-select" aria-label="Choose background music"></select>
+      <button class="btn" id="nextTrackBtn" type="button">Next</button>
+      <label class="music-label" for="volRange">Volume</label>
+      <input type="range" id="volRange" min="0" max="100" value="50" aria-label="Music volume">
+      <span class="now-playing" id="nowPlaying"></span>
+    </div>
 
     <div class="sync-panel">
       <div class="sync-row">
@@ -876,6 +892,7 @@
     <div class="footer-credit">
       Built by Thoshan Rathnayake &middot; gamer tag <span class="dev-tag">DrIfTeR</span>
     </div>
+    <div style="margin-top:6px;">Music via <a href="https://pixabay.com/music/" target="_blank" rel="noopener noreferrer" style="color:inherit;">Pixabay</a>: OpenMindAudio, The_Mountain, Nesterouk, AudioAtlant</div>
     <div style="margin-top:6px;">Stargate Watch Console &middot; progress saved automatically in this browser</div>
   </footer>
 </div>
@@ -1441,31 +1458,46 @@ document.addEventListener('pointerdown', function firstGesture(){
   document.removeEventListener('pointerdown', firstGesture);
 }, { once:true });
 
-/* ---------- BACKGROUND MUSIC (synthesized ambient drone, no audio files) ---------- */
+/* ---------- BACKGROUND MUSIC (track picker) ----------
+   Seven soundtrack options. "Destiny Drift" is a synthesized ambient drone
+   (no file). The other six are MP3 files in /music (free tracks from
+   Pixabay, used under the Pixabay Content License, no attribution required;
+   credits are still shown in the footer). Only the selected track is
+   downloaded, so the page stays light. */
 const MUSIC_KEY = 'sg_music_pref';
+const TRACK_KEY = 'sg_music_track';
+const VOL_KEY = 'sg_music_vol';
+const TRACKS = [
+  { id:'drift',     name:'Destiny Drift',      genre:'Ambient',          file:null },
+  { id:'kawoosh',   name:'Kawoosh Drop',       genre:'EDM, big drop',    file:'music/kawoosh-drop.mp3' },
+  { id:'naquadah',  name:'Naquadah Drive',     genre:'Hybrid EDM',       file:'music/naquadah-drive.mp3' },
+  { id:'dakara',    name:'Dakara Awakening',   genre:'Epic cinematic',   file:'music/dakara-awakening.mp3' },
+  { id:'atlantis',  name:'Atlantis Rising',    genre:'Epic cinematic',   file:'music/atlantis-rising.mp3' },
+  { id:'replicator',name:'Replicator Swarm',   genre:'Epic dubstep',     file:'music/replicator-swarm.mp3' },
+  { id:'supergate', name:'Supergate Siege',    genre:'Action trailer',   file:'music/supergate-siege.mp3' }
+];
 let musicOn = localStorage.getItem(MUSIC_KEY) !== '0';
+let currentTrackId = localStorage.getItem(TRACK_KEY);
+if(!TRACKS.some(t=>t.id===currentTrackId)) currentTrackId = 'drift';
+let musicVol = parseFloat(localStorage.getItem(VOL_KEY));
+if(isNaN(musicVol)) musicVol = 0.5;
 let musicNodes = null;
+let audioEl = null;
+let fadeTimer = null;
+const getTrack = ()=> TRACKS.find(t=>t.id===currentTrackId) || TRACKS[0];
 
-function startMusic(){
-  if(!musicOn) return;
+function startDrone(){
   ensureAudio();
   if(!audioCtx || musicNodes) return;
-
   const now = audioCtx.currentTime;
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
   filter.frequency.setValueAtTime(700, now);
   filter.Q.value = 0.3;
-
   const master = audioCtx.createGain();
   master.gain.setValueAtTime(0, now);
-  master.gain.linearRampToValueAtTime(0.05, now + 4);
-
+  master.gain.linearRampToValueAtTime(0.1 * musicVol, now + 4);
   filter.connect(master).connect(audioCtx.destination);
-
-  // A slow, non-melodic drone: a few detuned low tones, deliberately
-  // ambient rather than musical so it never competes with the show
-  // audio someone might have playing alongside this.
   const freqs = [55, 82.5, 110, 164.81];
   const oscs = freqs.map((f, i)=>{
     const osc = audioCtx.createOscillator();
@@ -1477,20 +1509,15 @@ function startMusic(){
     osc.start(now);
     return osc;
   });
-
-  // Very slow LFO sweeping the filter cutoff so the drone breathes
-  // instead of sitting static.
   const lfo = audioCtx.createOscillator();
   lfo.frequency.setValueAtTime(0.045, now);
   const lfoGain = audioCtx.createGain();
   lfoGain.gain.setValueAtTime(260, now);
   lfo.connect(lfoGain).connect(filter.frequency);
   lfo.start(now);
-
   musicNodes = { master, filter, oscs, lfo };
 }
-
-function stopMusic(){
+function stopDrone(){
   if(!musicNodes) return;
   const now = audioCtx.currentTime;
   const nodes = musicNodes;
@@ -1504,11 +1531,100 @@ function stopMusic(){
   }, 1300);
 }
 
+function fadeAudio(el, to, ms, done){
+  clearInterval(fadeTimer);
+  const from = el.volume, steps = 16, dt = ms / steps;
+  let i = 0;
+  fadeTimer = setInterval(()=>{
+    i++;
+    el.volume = Math.max(0, Math.min(1, from + (to - from) * (i / steps)));
+    if(i >= steps){ clearInterval(fadeTimer); if(done) done(); }
+  }, dt);
+}
+function stopFile(){
+  if(!audioEl) return;
+  const el = audioEl;
+  audioEl = null;
+  fadeAudio(el, 0, 600, ()=>{ el.pause(); el.removeAttribute('src'); el.load(); });
+}
+function setNowPlaying(extra){
+  const t = getTrack();
+  const el = document.getElementById('nowPlaying');
+  if(el) el.textContent = (musicOn ? 'Now playing: ' : 'Selected: ') + t.name + ' (' + t.genre + ')' + (extra || '');
+}
+
+function startMusic(){
+  if(!musicOn) return;
+  const t = getTrack();
+  setNowPlaying();
+  if(!t.file){
+    stopFile();
+    startDrone();
+    return;
+  }
+  stopDrone();
+  if(audioEl) return;
+  const el = new Audio(t.file);
+  el.loop = true;
+  el.volume = 0;
+  audioEl = el;
+  el.addEventListener('error', ()=>{
+    if(audioEl !== el) return;
+    audioEl = null;
+    setNowPlaying(', file not found, using ambient');
+    startDrone();
+  });
+  el.play().then(()=> fadeAudio(el, musicVol, 1500)).catch(()=>{
+    if(audioEl === el){ audioEl = null; }
+  });
+}
+function stopMusic(){
+  stopDrone();
+  stopFile();
+  setNowPlaying();
+}
 function setMusicButtonLabel(){
   const btn = document.getElementById('musicBtn');
   btn.textContent = musicOn ? 'Music: On' : 'Music: Off';
   btn.classList.toggle('music-off', !musicOn);
 }
+function selectTrack(id, userAction){
+  currentTrackId = id;
+  try{ localStorage.setItem(TRACK_KEY, id); }catch(e){}
+  document.getElementById('trackSelect').value = id;
+  stopDrone(); stopFile();
+  if(userAction && !musicOn){
+    musicOn = true;
+    try{ localStorage.setItem(MUSIC_KEY, '1'); }catch(e){}
+    setMusicButtonLabel();
+  }
+  if(musicOn){ setTimeout(startMusic, 120); } else { setNowPlaying(); }
+}
+
+(function buildTrackPicker(){
+  const sel = document.getElementById('trackSelect');
+  TRACKS.forEach(t=>{
+    const o = document.createElement('option');
+    o.value = t.id; o.textContent = t.name + ' - ' + t.genre;
+    sel.appendChild(o);
+  });
+  sel.value = currentTrackId;
+  sel.addEventListener('change', ()=> selectTrack(sel.value, true));
+  document.getElementById('nextTrackBtn').addEventListener('click', ()=>{
+    const i = TRACKS.findIndex(t=>t.id===currentTrackId);
+    selectTrack(TRACKS[(i + 1) % TRACKS.length].id, true);
+    playClickSound();
+  });
+  const vol = document.getElementById('volRange');
+  vol.value = Math.round(musicVol * 100);
+  vol.addEventListener('input', ()=>{
+    musicVol = vol.value / 100;
+    try{ localStorage.setItem(VOL_KEY, String(musicVol)); }catch(e){}
+    if(audioEl){ clearInterval(fadeTimer); audioEl.volume = musicVol; }
+    if(musicNodes && audioCtx) musicNodes.master.gain.setTargetAtTime(0.1 * musicVol, audioCtx.currentTime, 0.05);
+  });
+  setNowPlaying();
+})();
 
 document.getElementById('musicBtn').addEventListener('click', ()=>{
   musicOn = !musicOn;
@@ -1810,7 +1926,7 @@ if(finePointer){
   document.body.appendChild(gateEl);
   document.body.appendChild(dotEl);
 
-  const HOT = 'a,button,.row,.phase-head,.chip,.check,.note.spoiler-placeholder,label';
+  const HOT = 'a,button,.row,.phase-head,.chip,.check,.note.spoiler-placeholder,label,select,input[type=range]';
   window.addEventListener('mousemove', e=>{
     gateEl.classList.add('show'); dotEl.classList.add('show');
     const t = e.target;

@@ -9,6 +9,14 @@ cross-device sync, and basic SEO/AdSense hooks.
 
 ## What's new in this version
 
+- **Soundtrack picker**: seven options (a synthesized ambient drone plus six
+  MP3s in `music/`: EDM, hybrid EDM, epic cinematic, epic dubstep and an
+  action trailer), each with a Stargate name, a volume slider and a Next
+  button. Only the selected track downloads. Tracks come from Pixabay
+  (Pixabay Content License, credited in the footer). The standalone single
+  HTML file needs the `music/` folder next to it, or it falls back to the
+  ambient drone.
+
 - **Glassmorphism UI** with a Light/Dark toggle (remembers your choice,
   defaults to your system setting). Colors live in CSS variables at the top
   of the second half of the stylesheet, so retheming is easy.
@@ -114,7 +122,7 @@ branch on GitHub.
 
 **What you still need to do:**
 
-1. **Replace every `YOUR-DOMAIN.vercel.app` placeholder** in `index.html`,
+1. **Replace every `stargate-watch-console.vercel.app` placeholder** in `index.html`,
    `robots.txt`, and `sitemap.xml` with your actual live domain once you
    know it.
 2. **Add a real preview image.** Take a screenshot of the site (1200x630px

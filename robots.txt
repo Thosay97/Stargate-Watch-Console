@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://YOUR-DOMAIN.vercel.app/sitemap.xml
+Sitemap: https://stargate-watch-console.vercel.app/sitemap.xml

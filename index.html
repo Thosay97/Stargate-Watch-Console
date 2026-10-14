@@ -57,6 +57,8 @@
 
 
 <style>
+  .row{cursor:pointer;}
+  .note.spoiler-toggle{cursor:pointer;}
   :root{
     --void:#05070c;
     --panel:#0d1420;
@@ -1414,12 +1416,20 @@ function buildPhases(){
     });
   });
 
-  container.querySelectorAll('.note').forEach(note=>{
-    note.addEventListener('click', ()=>{
-      if(note.classList.contains('spoiler-placeholder')){
-        note.classList.add('revealed');
+  /* Click anywhere on a row to check or uncheck it. The one exception is
+     the description while spoilers are hidden: there, a click reveals it,
+     and another click hides it again. */
+  container.querySelectorAll('.row').forEach(row=>{
+    row.addEventListener('click', (e)=>{
+      if(window.getSelection && String(window.getSelection()).length > 0) return;
+      const note = e.target.closest('.note');
+      if(note && note.classList.contains('spoiler-toggle')){
+        note.classList.toggle('revealed');
         refreshSpoilerState();
+        playClickSound();
+        return;
       }
+      toggleEp(row.dataset.id, row.querySelector('.check'));
     });
   });
 }
@@ -1476,6 +1486,7 @@ function refreshSpoilerState(){
     const row = note.closest('.row');
     const isWatched = row.classList.contains('watched');
     const original = note.dataset.original;
+    note.classList.toggle('spoiler-toggle', spoilersHidden && !isWatched);
     if(spoilersHidden && !isWatched && !note.classList.contains('revealed')){
       note.textContent = 'Spoiler hidden, click to reveal';
       note.classList.add('spoiler-placeholder');

@@ -761,6 +761,14 @@
   .track-select:hover,.track-select:focus{border-color:var(--cyan);outline:none;}
   #volRange{width:110px;accent-color:var(--cyan);}
   .now-playing{font-size:.74rem;color:var(--cyan);font-weight:600;flex-basis:100%;}
+
+  /* sticky console collapses its music and sync rows while scrolling */
+  .console-extra{overflow:hidden;max-height:700px;opacity:1;transition:max-height .35s ease, opacity .25s ease;}
+  .console.compact:not(.expanded) .console-extra{max-height:0;opacity:0;pointer-events:none;}
+  .console.compact{padding-top:10px;padding-bottom:10px;}
+  .console-toggle{display:none;}
+  .console.compact .console-toggle{display:inline-block;}
+  .console.compact.expanded .console-toggle{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan);}
 </style>
 </head>
 <body>
@@ -832,7 +840,9 @@
       <button class="btn" id="soundBtn">Sound: On</button>
       <button class="btn" id="musicBtn">Music: On</button>
       <button class="btn btn-theme" id="themeBtn">Theme</button>
+      <button class="btn console-toggle" id="consoleToggle" type="button" aria-expanded="false" aria-controls="consoleExtra">Music &amp; sync</button>
     </div>
+    <div class="console-extra" id="consoleExtra">
     <div class="music-row">
       <label class="music-label" for="trackSelect">Soundtrack</label>
       <select id="trackSelect" class="track-select" aria-label="Choose background music"></select>
@@ -854,6 +864,7 @@
         <button class="btn" id="loadSyncBtn">Load</button>
       </div>
       <div class="sync-status" id="syncStatus">Running locally, this browser only</div>
+    </div>
     </div>
   </div>
 
@@ -2277,6 +2288,36 @@ async function initialSync(){
     setSyncStatus('Ready, copy the sync code above to use this on another device');
   }
 }
+
+/* ---------- COLLAPSING CONSOLE ---------- */
+(function(){
+  const box = document.querySelector('.console');
+  const toggle = document.getElementById('consoleToggle');
+  if(!box || !toggle) return;
+  let top = 0;
+  function measure(){
+    if(box.classList.contains('compact')) return;
+    top = box.getBoundingClientRect().top + window.scrollY;
+  }
+  function update(){
+    const y = window.scrollY;
+    const compact = box.classList.contains('compact');
+    if(!compact && y > top - 20){
+      box.classList.add('compact');
+    } else if(compact && y < top - 140){
+      box.classList.remove('compact','expanded');
+      toggle.setAttribute('aria-expanded','false');
+    }
+  }
+  measure(); update();
+  window.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', ()=>{ measure(); update(); });
+  toggle.addEventListener('click', ()=>{
+    const on = box.classList.toggle('expanded');
+    toggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+    playClickSound();
+  });
+})();
 
 /* ---------- INIT ---------- */
 loadState();

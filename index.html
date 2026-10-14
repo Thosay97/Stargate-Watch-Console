@@ -797,6 +797,10 @@
         <div class="status-value" id="progLine">Loading...</div>
         <div class="status-line" style="margin-top:10px;">Up Next</div>
         <div class="status-value" id="nextLine">Loading...</div>
+        <div id="thenWrap">
+          <div class="status-line" style="margin-top:10px;">Then</div>
+          <div class="status-value" id="thenLine" style="color:var(--text-dim);font-weight:600;">Loading...</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1052,20 +1056,16 @@ const WATCHED_THROUGH = 0;
 const TOTAL = DATA.reduce((n,p)=>n+p.items.length,0);
 const ALL_ITEMS = DATA.reduce((arr,p)=> arr.concat(p.items), []);
 
-/* Recomputes on every change instead of a fixed pair, so it always
-   reflects whatever you've actually checked off. Shows the very next
-   unwatched episode, plus the next unwatched episode from a different
-   show, so two unwatched episodes in a row from the same show (e.g.
-   two SG-1 episodes back to back) don't both show up as "up next". */
-function getNextUnwatched(){
-  const unwatchedSorted = ALL_ITEMS
+/* Up Next is always the earliest unwatched entry in watch order, so it
+   updates whenever an episode is checked or unchecked (or on reset).
+   getUpcoming(n) returns the next n unwatched entries in order. */
+function getUpcoming(n){
+  return ALL_ITEMS
     .filter(it => !watched.has(it[0]))
-    .sort((a,b)=> a[0]-b[0]);
-  if(unwatchedSorted.length === 0) return [];
-  const first = unwatchedSorted[0];
-  const second = unwatchedSorted.find(it => it[1] !== first[1]);
-  return second ? [first, second].sort((a,b)=> a[0]-b[0]) : [first];
+    .sort((a,b)=> a[0]-b[0])
+    .slice(0, n);
 }
+function getNextUnwatched(){ return getUpcoming(1); }
 const SERIES_LABEL = { sg1:'SG-1', sga:'ATLANTIS', movie:'MOVIE', sgu:'UNIVERSE', sgo:'ORIGINS' };
 
 /* ---------- STATE ---------- */
@@ -1278,16 +1278,13 @@ function updateProgress(){
   const nextItems = updateNextIndicators();
   document.getElementById('progLine').innerHTML =
     `<strong>${count}</strong> of ${TOTAL} milestones locked in`;
-  if(nextItems.length){
-    const parts = nextItems.map(it => {
-      const label = SERIES_LABEL[it[1]];
-      const cls = it[1] === 'sga' ? 'b2' : '';
-      return `<span class="${cls}">${label} ${it[2].split(' - ')[0]}</span>`;
-    });
-    document.getElementById('nextLine').innerHTML = parts.join(' &nbsp;+&nbsp; ');
-  } else {
-    document.getElementById('nextLine').textContent = 'All caught up';
-  }
+  const fmt = it => `${SERIES_LABEL[it[1]]} ${it[2].replace(' - ', ': ')}`;
+  const upcoming = getUpcoming(2);
+  document.getElementById('nextLine').innerHTML = upcoming.length
+    ? `<strong>${fmt(upcoming[0])}</strong>`
+    : 'All caught up';
+  document.getElementById('thenLine').textContent = upcoming.length > 1 ? fmt(upcoming[1]) : '';
+  document.getElementById('thenWrap').style.display = upcoming.length > 1 ? '' : 'none';
 
   document.querySelectorAll('.phase').forEach(card=>{
     const rows = card.querySelectorAll('.row');

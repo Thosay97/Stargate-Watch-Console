@@ -5,7 +5,7 @@ A single-page checklist for the SG-1/Atlantis/Universe crossover watch order
 per-episode progress tracking, spoiler hiding, synthesized sound and music,
 a glassmorphism design with light and dark themes, a Stargate-style gate
 cursor with stardust trails, an interactive warp-speed background,
-cross-device sync, and basic SEO/AdSense hooks.
+cross-device sync, and basic SEO. It is ad-free.
 
 ## What's new in this version
 
@@ -44,7 +44,6 @@ api/progress.js    serverless function for cross-device sync
 package.json        one dependency (@upstash/redis)
 robots.txt          tells search engines what to crawl
 sitemap.xml          list of pages for search engines
-ads.txt              required by Google AdSense once you're approved
 privacy.html         minimal privacy page (linked in the footer)
 README.md            this file
 ```
@@ -134,36 +133,6 @@ branch on GitHub.
    DNS TXT record or HTML file), then submit
    `https://your-domain.com/sitemap.xml` so Google indexes it faster.
 4. Fill in the "Last updated" date on `privacy.html`.
-
----
-
-## Part 3: Google AdSense
-
-Three things need to line up before ads actually show: an approved
-AdSense account, a matching `ads.txt`, and your publisher ID pasted into
-the site.
-
-1. **Apply at google.com/adsense.** You'll need your live domain (from
-   Part 1) and enough original content on it, this project's intro
-   paragraph and full episode list should be enough, but approval is
-   Google's call, not something anyone can guarantee.
-2. Once approved, AdSense gives you a **publisher ID** that looks like
-   `ca-pub-1234567890123456` (this is public information, not a secret).
-3. **Replace every `ca-pub-0000000000000000`** in `index.html` with your
-   real publisher ID (there are two spots: the `<script>` tag in `<head>`
-   and the `data-ad-client` attribute on the `<ins>` ad block).
-4. **Update `ads.txt`**, replacing `pub-0000000000000000` with your ID
-   (same number, without the `ca-` prefix). This file must live at your
-   site's root (`your-domain.com/ads.txt`), which it already will since
-   it's in this folder, AdSense checks for it automatically.
-5. Redeploy (push to GitHub, Vercel redeploys automatically). Ads
-   typically take a few hours to start appearing after everything lines
-   up.
-
-One ad slot is already placed in `index.html`, right above the episode
-list, styled to blend with the layout rather than interrupt the
-checklist itself. You can add more `<ins class="adsbygoogle">` blocks
-elsewhere if you want, following the same pattern.
 
 ---
 

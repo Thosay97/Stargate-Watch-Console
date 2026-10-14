@@ -587,6 +587,74 @@
     vertical-align:-2px;
   }
 
+
+  /* ---------- MOBILE ---------- */
+  .console-toggle-m{display:none;}
+  html{-webkit-text-size-adjust:100%;}
+  .btn, .chip, .row, .phase-head{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+  @media (max-width: 640px){
+    .wrap{padding:12px 10px calc(60px + env(safe-area-inset-bottom));}
+    .hero{padding:22px 12px 18px;margin-bottom:14px;border-radius:14px;}
+    .eyebrow{font-size:.58rem;letter-spacing:2px;margin-bottom:6px;}
+    h1{font-size:1.35rem;letter-spacing:1px;}
+    .hero-sub{font-size:.82rem;}
+    .gate-dial{margin-top:14px;gap:10px;}
+    .ring-box{width:104px;height:104px;}
+    .ring-pct{font-size:1.45rem;}
+    .status-readout{max-width:100%;width:100%;text-align:center;}
+    .status-line{font-size:.68rem;margin-bottom:2px;}
+    .status-value{font-size:.92rem;margin-bottom:6px;}
+
+    .console{top:6px;padding:10px;margin-bottom:14px;border-radius:12px;}
+    .console-top{align-items:center;margin-bottom:6px;gap:8px;}
+    .console-top #progressText{flex:1;}
+    .bar-bg{margin-bottom:8px;}
+    .console-body{max-height:2000px;overflow:hidden;transition:max-height .3s ease, opacity .2s ease;}
+    .console.compact:not(.expanded) .console-body{max-height:0;opacity:0;pointer-events:none;}
+    .console.compact .console-toggle-m{display:inline-block;padding:5px 12px;}
+    .console.compact.expanded .console-toggle-m{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan);}
+    .console.compact.expanded{max-height:calc(100dvh - 16px);overflow-y:auto;overscroll-behavior:contain;}
+    .console.compact{padding:8px 10px;}
+    .console-toggle{display:none !important;}
+    .console-extra{max-height:none;opacity:1;}
+    .console.compact:not(.expanded) .console-extra{max-height:none;opacity:1;}
+
+    .chips{flex-wrap:nowrap;overflow-x:auto;gap:6px;width:100%;padding-bottom:2px;scrollbar-width:none;}
+    .chips::-webkit-scrollbar{display:none;}
+    .chip{flex:0 0 auto;padding:8px 12px;}
+    .search-box{flex:1 1 100%;min-width:0;padding:8px 10px;}
+    .search-box input{font-size:16px;}
+    .btn-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+    .btn-row .btn{padding:10px 8px;font-size:.82rem;text-align:center;}
+    .btn-row .btn.primary{grid-column:1 / -1;}
+    .music-row{gap:8px;}
+    .track-select{flex:1 1 100%;min-width:0;font-size:16px;padding:9px;}
+    .music-row input[type=range]{flex:1;min-width:0;}
+    .now-playing{flex:1 1 100%;}
+    .sync-row{flex-direction:column;align-items:stretch;gap:6px;}
+    .sync-input{font-size:16px;width:100%;min-width:0;}
+    .sync-row .btn{width:100%;padding:10px;}
+
+    .section-h{font-size:1.1rem;}
+    .section-p{font-size:.84rem;line-height:1.55;}
+    .phase-head{padding:14px 12px;}
+    .phase-title{font-size:.9rem;}
+    .phase-meta{gap:8px;}
+    .row{gap:10px;padding:12px 10px;}
+    .order{display:none;}
+    .check{width:26px;height:26px;}
+    .check.checked::after{left:8px;top:3px;}
+    .tag{font-size:.52rem;padding:3px 6px;}
+    .title{font-size:.9rem;}
+    .note{font-size:.76rem;}
+    .next-badge{font-size:.5rem;padding:2px 6px;}
+    .footer-links a{padding:9px 14px;}
+  }
+  @media (max-width: 360px){
+    .btn-row{grid-template-columns:1fr;}
+    h1{font-size:1.2rem;}
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important;}
   }
@@ -823,8 +891,10 @@
     <div class="console-top">
       <span id="progressText">0 / 367 complete</span>
       <span id="progressPct">0%</span>
+      <button class="btn console-toggle-m" id="consoleToggleM" type="button" aria-expanded="false" aria-controls="consoleBody">Menu</button>
     </div>
     <div class="bar-bg"><div class="bar-fill" id="barFill"></div></div>
+    <div class="console-body" id="consoleBody">
     <div class="console-row">
       <div class="chips" id="chips">
         <button class="chip active" data-filter="all">ALL</button>
@@ -870,6 +940,7 @@
         <button class="btn" id="loadSyncBtn">Load</button>
       </div>
       <div class="sync-status" id="syncStatus">Running locally, this browser only</div>
+    </div>
     </div>
     </div>
   </div>
@@ -1615,6 +1686,11 @@ document.getElementById('spoilerBtn').addEventListener('click', ()=>{
 document.getElementById('jumpBtn').addEventListener('click', ()=>{
   const target = document.querySelector('.next-row');
   if(!target) return;
+  const cons = document.querySelector('.console');
+  if(cons && window.matchMedia('(max-width: 640px)').matches){
+    cons.classList.remove('expanded');
+    const tm = document.getElementById('consoleToggleM'); if(tm) tm.setAttribute('aria-expanded','false');
+  }
   target.closest('.phase').classList.add('open');
   target.scrollIntoView({behavior:'smooth', block:'center'});
   target.classList.add('shimmer');
@@ -2307,9 +2383,13 @@ async function initialSync(){
 /* ---------- COLLAPSING CONSOLE ---------- */
 (function(){
   const box = document.querySelector('.console');
-  const toggle = document.getElementById('consoleToggle');
-  if(!box || !toggle) return;
+  const toggles = [document.getElementById('consoleToggle'), document.getElementById('consoleToggleM')].filter(Boolean);
+  if(!box || !toggles.length) return;
   let top = 0;
+  function setExpanded(on){
+    box.classList.toggle('expanded', on);
+    toggles.forEach(t=>t.setAttribute('aria-expanded', on ? 'true' : 'false'));
+  }
   function measure(){
     if(box.classList.contains('compact')) return;
     top = box.getBoundingClientRect().top + window.scrollY;
@@ -2320,18 +2400,17 @@ async function initialSync(){
     if(!compact && y > top - 20){
       box.classList.add('compact');
     } else if(compact && y < top - 140){
-      box.classList.remove('compact','expanded');
-      toggle.setAttribute('aria-expanded','false');
+      box.classList.remove('compact');
+      setExpanded(false);
     }
   }
   measure(); update();
   window.addEventListener('scroll', update, { passive:true });
   window.addEventListener('resize', ()=>{ measure(); update(); });
-  toggle.addEventListener('click', ()=>{
-    const on = box.classList.toggle('expanded');
-    toggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+  toggles.forEach(t=>t.addEventListener('click', ()=>{
+    setExpanded(!box.classList.contains('expanded'));
     playClickSound();
-  });
+  }));
 })();
 
 /* ---------- INIT ---------- */

@@ -15,19 +15,51 @@ const redis = Redis.fromEnv();
 
 // Basic guardrails: the sync code is client-generated, so keep the key
 // space and payload size bounded.
+const MIN_ID_LENGTH = 16; // client codes are UUIDs; short codes are guessable
 const MAX_ID_LENGTH = 100;
+const RATE_LIMIT = 60; // requests per IP per minute
+const RATE_WINDOW_SECONDS = 60;
 const MAX_BODY_BYTES = 20_000; // generous; the real payload is a few hundred bytes
 const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
 function isValidId(id) {
-  return typeof id === 'string' && id.length > 0 && id.length <= MAX_ID_LENGTH && /^[A-Za-z0-9_-]+$/.test(id);
+  return typeof id === 'string' && id.length >= MIN_ID_LENGTH && id.length <= MAX_ID_LENGTH && /^[A-Za-z0-9_-]+$/.test(id);
+}
+
+// Fixed-window rate limit per client IP, kept in Redis so it holds across
+// serverless instances. Fails open if Redis is briefly unavailable.
+async function rateLimited(req) {
+  try {
+    const fwd = req.headers['x-forwarded-for'];
+    const ip = (typeof fwd === 'string' ? fwd.split(',')[0].trim() : '') || req.socket?.remoteAddress || 'unknown';
+    const bucket = Math.floor(Date.now() / (RATE_WINDOW_SECONDS * 1000));
+    const rkey = `sgwatch:rl:${ip}:${bucket}`;
+    const n = await redis.incr(rkey);
+    if (n === 1) await redis.expire(rkey, RATE_WINDOW_SECONDS * 2);
+    return n > RATE_LIMIT;
+  } catch (e) {
+    return false;
+  }
 }
 
 export default async function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    res.setHeader('Allow', 'GET, POST');
+    return res.status(405).json({ error: 'method not allowed' });
+  }
+
   const id = req.query.id;
 
   if (!isValidId(id)) {
     return res.status(400).json({ error: 'missing or invalid id' });
+  }
+
+  if (await rateLimited(req)) {
+    res.setHeader('Retry-After', String(RATE_WINDOW_SECONDS));
+    return res.status(429).json({ error: 'too many requests' });
   }
 
   const key = `sgwatch:${id}`;
@@ -55,7 +87,7 @@ export default async function handler(req, res) {
 
     const record = {
       v: body.v === 2 ? 2 : 1,
-      watched: body.watched.filter(n => Number.isInteger(n)).slice(0, 500),
+      watched: [...new Set(body.watched.filter(n => Number.isInteger(n) && n >= 1 && n <= 1000))].slice(0, 500),
       spoilersHidden: !!body.spoilersHidden,
       soundOn: body.soundOn !== false,
       updatedAt: Date.now()

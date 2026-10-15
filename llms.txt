@@ -1,0 +1,17 @@
+# Stargate Watch Console
+
+> A free, ad-free interactive checklist for the whole Stargate franchise in chronological crossover order: 367 movies and episodes across the 1994 film, Stargate SG-1, Stargate Atlantis, the SG-1 movies, Stargate Universe and Stargate Origins. SG-1 and Atlantis are interleaved by original air date. Progress is saved in the browser, with an optional anonymous sync code. Built by Thoshan Rathnayake.
+
+## Pages
+- [Interactive checklist](https://stargate-watch-console.vercel.app/): track progress, hide spoilers, filter by series, mark watched up to an episode.
+- [Full watch order as a plain list](https://stargate-watch-console.vercel.app/watch-order.html): every entry with air date and a short spoiler-light summary, plus an FAQ.
+
+## Key facts
+- Entries: 3 movies, 214 SG-1 episodes, 100 Atlantis episodes, 40 Universe episodes, 10 Origins episodes.
+- Order: original 1994 film first, then SG-1 season 1 onward, with Atlantis interleaved from 2004 by air date.
+- Universe and Origins are optional and listed last.
+- Source: public episode guides (Wikipedia season pages, US air dates). Summaries are original short paraphrases.
+- Cost: free, no ads, no account.
+
+## Source code
+- https://github.com/Thosay97/Stargate-Watch-Console

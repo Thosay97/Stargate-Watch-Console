@@ -23,7 +23,7 @@
 </head>
 <body>
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: [add date when you publish]</p>
+  <p class="updated">Last updated: October 15, 2026</p>
 
   <p>Stargate Watch Console is a fan-made episode tracker. This page explains what
   data the site touches and why.</p>
@@ -38,7 +38,9 @@
   name, email, or any account) and your checklist progress are stored on a Redis
   database so you can load the same progress on another device. Anyone who has
   your sync code can view or overwrite that progress, so treat it like a
-  lightweight password and don't share it publicly.</p>
+  lightweight password and don't share it publicly. To prevent abuse, the sync service briefly counts
+  requests per IP address (for about two minutes) and does not keep IP addresses
+  after that.</p>
 
   <h2>Advertising</h2>
   <p>This site does not show ads and does not use advertising or tracking cookies.</p>

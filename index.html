@@ -14,20 +14,29 @@
 <meta name="description" content="An interactive episode-by-episode checklist for the whole Stargate franchise, from the 1994 film through SG-1, Atlantis, the movies, Universe and Origins, in chronological crossover order. Track your progress, hide spoilers, and sync across devices, free.">
 <meta name="keywords" content="Stargate watch order, Stargate SG-1 Atlantis crossover order, Stargate chronological order, Stargate episode tracker, Stargate Universe watch order">
 <meta name="author" content="Thoshan Rathnayake">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="theme-color" content="#05070c">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site summary">
 <link rel="canonical" href="https://stargate-watch-console.vercel.app/">
 
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Stargate Watch Console">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="Stargate Watch Console | Chronological SG-1 & Atlantis Watch Order Tracker">
 <meta property="og:description" content="Track your way through the Stargate franchise in chronological crossover order, with progress sync, spoiler hiding, and sound.">
 <meta property="og:url" content="https://stargate-watch-console.vercel.app/">
 <meta property="og:image" content="https://stargate-watch-console.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Stargate Watch Console: chronological SG-1, Atlantis and Universe episode tracker">
 
 <!-- Twitter card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Stargate Watch Console">
 <meta name="twitter:description" content="Track the Stargate franchise in chronological crossover order.">
 <meta name="twitter:image" content="https://stargate-watch-console.vercel.app/og-image.png">
+<meta name="twitter:image:alt" content="Stargate Watch Console: chronological SG-1, Atlantis and Universe episode tracker">
 
 <!-- Vercel Web Analytics: anonymous, cookie-free page view counts. Enable "Web Analytics" in the Vercel project dashboard. -->
 <script>window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };</script>
@@ -46,6 +55,9 @@
   "description": "An interactive episode-by-episode checklist for the whole Stargate franchise, from the 1994 film through SG-1, Atlantis, the movies, Universe and Origins, in chronological crossover order.",
   "applicationCategory": "EntertainmentApplication",
   "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "inLanguage": "en",
+  "featureList": "Chronological Stargate watch order, 367 movies and episodes, per-episode checklist, spoiler hiding, mark watched up to an episode, cross-device sync code, light and dark themes",
   "author": {
     "@type": "Person",
     "name": "Thoshan Rathnayake",
@@ -58,7 +70,9 @@
   }
 }
 </script>
-
+<!-- FAQ-LD:START -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the chronological watch order for Stargate?","acceptedAnswer":{"@type":"Answer","text":"Start with the 1994 film, then watch Stargate SG-1 from season 1. From mid 2004 SG-1 and Stargate Atlantis air side by side, so this tracker interleaves them by original air date. Crossover episodes land next to each other, then the SG-1 movies (The Ark of Truth and Continuum), Stargate Universe and the optional Origins web series follow."}},{"@type":"Question","name":"Do I have to watch SG-1 before Stargate Atlantis?","acceptedAnswer":{"@type":"Answer","text":"Not strictly. Atlantis is written so new viewers can follow it. The two shows share characters, mythology and a few direct crossovers, so watching them in air date order is the safest way to avoid spoiling either series."}},{"@type":"Question","name":"How many Stargate episodes and movies are there?","acceptedAnswer":{"@type":"Answer","text":"This checklist has 367 entries: 3 movies (the 1994 original, The Ark of Truth and Continuum), 214 SG-1 episodes, 100 Stargate Atlantis episodes, 40 Stargate Universe episodes and 10 Stargate Origins episodes."}},{"@type":"Question","name":"Is Stargate Universe or Stargate Origins required?","acceptedAnswer":{"@type":"Answer","text":"No. Universe is a separate crew on a separate ship and mostly stands alone. Origins is an optional prequel web series set in the 1930s. Both are included at the end of the list so you can skip them."}},{"@type":"Question","name":"How do I keep my place and avoid spoilers?","acceptedAnswer":{"@type":"Answer","text":"Tap any row to check it off. Use Up Next to see what to watch next, and use Hide spoilers to blur episode summaries until you reveal them. If you are already partway through, tap Mark all watched up to here on an episode to catch up in one go."}},{"@type":"Question","name":"Is the Stargate Watch Console free, and does it save my progress?","acceptedAnswer":{"@type":"Answer","text":"It is free, has no ads and needs no account. Progress is saved in your browser. For another device, copy your anonymous sync code, which stores only your checklist progress."}}]}</script>
+    <!-- FAQ-LD:END -->
 
 <style>
   .row{cursor:pointer;}
@@ -588,6 +602,17 @@
   }
 
 
+  /* ---------- FAQ ---------- */
+  .faq{margin:34px 0 8px;}
+  .faq details{border:1px solid var(--edge);border-radius:12px;padding:12px 16px;margin:10px 0;background:var(--panel);}
+  .faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:"+";color:var(--cyan);font-size:1.3rem;line-height:1;}
+  .faq details[open] summary::after{content:"\2212";}
+  .faq details p{margin-top:8px;color:var(--text-dim);line-height:1.6;}
+  .faq-more{margin-top:12px;font-size:.9rem;}
+  .faq-more a{color:var(--cyan);}
+
   /* ---------- MARK UP TO HERE + TOAST ---------- */
   .upto{
     align-self:flex-start;
@@ -1005,12 +1030,26 @@
 
   <div id="phaseContainer"></div>
 
+  <section class="faq" id="faq" aria-labelledby="faqH">
+    <h2 id="faqH" class="section-h">Stargate watch order FAQ</h2>
+    <!-- FAQ:START -->
+    <details><summary>What is the chronological watch order for Stargate?</summary><p>Start with the 1994 film, then watch Stargate SG-1 from season 1. From mid 2004 SG-1 and Stargate Atlantis air side by side, so this tracker interleaves them by original air date. Crossover episodes land next to each other, then the SG-1 movies (The Ark of Truth and Continuum), Stargate Universe and the optional Origins web series follow.</p></details>
+    <details><summary>Do I have to watch SG-1 before Stargate Atlantis?</summary><p>Not strictly. Atlantis is written so new viewers can follow it. The two shows share characters, mythology and a few direct crossovers, so watching them in air date order is the safest way to avoid spoiling either series.</p></details>
+    <details><summary>How many Stargate episodes and movies are there?</summary><p>This checklist has 367 entries: 3 movies (the 1994 original, The Ark of Truth and Continuum), 214 SG-1 episodes, 100 Stargate Atlantis episodes, 40 Stargate Universe episodes and 10 Stargate Origins episodes.</p></details>
+    <details><summary>Is Stargate Universe or Stargate Origins required?</summary><p>No. Universe is a separate crew on a separate ship and mostly stands alone. Origins is an optional prequel web series set in the 1930s. Both are included at the end of the list so you can skip them.</p></details>
+    <details><summary>How do I keep my place and avoid spoilers?</summary><p>Tap any row to check it off. Use Up Next to see what to watch next, and use Hide spoilers to blur episode summaries until you reveal them. If you are already partway through, tap Mark all watched up to here on an episode to catch up in one go.</p></details>
+    <details><summary>Is the Stargate Watch Console free, and does it save my progress?</summary><p>It is free, has no ads and needs no account. Progress is saved in your browser. For another device, copy your anonymous sync code, which stores only your checklist progress.</p></details>
+    <!-- FAQ:END -->
+    <p class="faq-more"><a href="/watch-order.html">Read the full watch order as a plain list</a></p>
+  </section>
+
   <footer>
     <div class="footer-links">
       <a href="https://github.com/Thosay97" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="https://www.linkedin.com/in/thoshan-rathnayake-mba-512274176/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="https://www.facebook.com/thoshan.rathnayake1" target="_blank" rel="noopener noreferrer">Facebook</a>
       <a href="https://www.instagram.com/_thosay97" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="/watch-order.html">Full list</a>
       <a href="/privacy.html">Privacy</a>
     </div>
     <div class="footer-credit">
@@ -2428,7 +2467,8 @@ async function pullRemote(id){
     if(!res.ok) throw new Error('bad response');
     const json = await res.json();
     if(json && json.data){
-      watched = new Set(json.data.v === 2 ? (json.data.watched || []) : migrateIds(json.data.watched));
+      const rawW = Array.isArray(json.data.watched) ? json.data.watched : [];
+      watched = new Set((json.data.v === 2 ? rawW : migrateIds(rawW)).filter(n => Number.isInteger(n) && n >= 1 && n <= TOTAL));
       spoilersHidden = !!json.data.spoilersHidden;
       soundOn = json.data.soundOn !== false;
       localStorage.setItem(STORAGE_KEY, JSON.stringify([...watched]));
@@ -2461,6 +2501,7 @@ document.getElementById('copySyncBtn').addEventListener('click', ()=>{
 document.getElementById('loadSyncBtn').addEventListener('click', async ()=>{
   const val = document.getElementById('syncCodeInput').value.trim();
   if(!val) return;
+  if(!/^[A-Za-z0-9_-]{16,100}$/.test(val)){ setSyncStatus('That does not look like a valid sync code', 'err'); return; }
   playClickSound();
   const ok = await pullRemote(val);
   if(ok){
